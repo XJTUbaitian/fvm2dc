@@ -2,7 +2,7 @@
  * globalvars.h
  *
  *  Created on: Mar 31, 2018
- *      Author: limingtao
+ *      Author: limingtao mingtao.li@gmail.com
  */
 
 #ifndef FVM2DC_GLOBALVARS_H_
