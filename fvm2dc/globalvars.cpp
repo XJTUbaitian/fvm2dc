@@ -1,0 +1,53 @@
+/*
+ * globalvars.cpp
+ *
+ *  Created on: Mar 31, 2018
+ *      Author: limingtao
+ */
+
+#include "globalvars.h"
+
+//ops block
+ops_block fvm2d_grid; //grid
+
+//ops dats
+ops_dat facex; // xu
+ops_dat facey; // yv
+ops_dat cellx; // x
+ops_dat celly; // y
+ops_dat celldx; // xdif
+ops_dat celldy; // ydif
+ops_dat facedx; // xcv
+ops_dat facedy; // ycv
+ops_dat xcvs; // xcvs
+ops_dat ycvs; // ycvs
+ops_dat xvel0; // U
+ops_dat yvel0; // V
+ops_dat presscorr; // P
+ops_dat density; // RHO
+ops_dat temperature; // T
+ops_dat xvelhat; // UHAT
+ops_dat yvelhat; // VHAT
+
+//commonly used stencils
+ops_stencil S2D_00; // 00
+ops_stencil S2D_00_P10_M10_0P1_0M1;
+
+FILE *fp;
+
+double xmin;
+double ymin;
+double xmax;
+double ymax;
+double xlength;
+double ylength;
+int xcells;
+int ycells;
+int xL1;
+int xL2;
+int xL3;
+int yM1;
+int yM2;
+int yM3;
+int iter;
+
