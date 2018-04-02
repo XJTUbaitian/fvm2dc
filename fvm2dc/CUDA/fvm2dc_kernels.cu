@@ -41,4 +41,5 @@ void ops_decl_const_char(int dim, char const *type, int size, char *dat,
 }
 
 // user kernel files
-#include "gridsetup_kernel_x_cuda_kernel.cu"
+#include "gridsetup_kernel_facex_cuda_kernel.cu"
+#include "gridsetup_kernel_facey_cuda_kernel.cu"

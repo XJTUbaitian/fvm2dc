@@ -31,7 +31,7 @@ SEQ_KERNELS = fvm2dc_seq_kernels.cpp
 
 TARGETS = fvm2dc_seq
 
-all: clean $(TARGETS)
+all: $(TARGETS)
 
 #
 trans:
@@ -40,4 +40,4 @@ fvm2dc_seq: Makefile fvm2dc.cpp $(OPS_INSTALL_PATH)/lib/libops_seq.a
 	$(CPP) $(MPIFLAGS)  $(OPS_INC) $(OPS_LIB) -I. globalvars.cpp initialize.cpp gridsetup_ops.cpp -I. ./MPI/$(SEQ_KERNELS) fvm2dc_ops.cpp -lops_seq $(HDF5_LIB) -o fvm2dc_seq
 
 clean:
-	rm -f fvm2dc_seq gridsetup_ops.cpp fvm2dc_ops.cpp *.o result.txt facex.dat
+	rm -f fvm2dc_seq gridsetup_ops.cpp fvm2dc_ops.cpp *.o result.txt facex.dat facey.dat

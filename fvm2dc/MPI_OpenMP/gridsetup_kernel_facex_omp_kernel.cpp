@@ -6,7 +6,7 @@
 #endif
 
 // user function
-inline void gridsetup_kernel_x(double *val, int *idx) {
+inline void gridsetup_kernel_facex(double *val, int *idx) {
 
   double d_x;
   if (idx[0] == 0 | idx[0] == 1) {
@@ -19,8 +19,9 @@ inline void gridsetup_kernel_x(double *val, int *idx) {
 }
 
 // host stub function
-void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
-                                     int *range, ops_arg arg0, ops_arg arg1) {
+void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
+                                         int dim, int *range, ops_arg arg0,
+                                         ops_arg arg1) {
 
   // Timing
   double t1, t2, c1, c2;
@@ -34,7 +35,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(0, "gridsetup_kernel_x");
+    ops_timing_realloc(0, "gridsetup_kernel_facex");
     OPS_kernels[0].count++;
     ops_timers_core(&c1, &t1);
   }
@@ -74,7 +75,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
   }
 #endif
 #ifdef OPS_DEBUG
-  ops_register_args(args, "gridsetup_kernel_x");
+  ops_register_args(args, "gridsetup_kernel_facex");
 #endif
 
   offs[0][0] = args[0].stencil->stride[0] * 1; // unit step in x dimension
@@ -149,7 +150,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
            n_x++) {
         // call kernel function, passing in pointers to data -vectorised
         for (int i = 0; i < SIMD_VEC; i++) {
-          gridsetup_kernel_x((double *)p_a[0] + i * 1 * 1, arg_idx);
+          gridsetup_kernel_facex((double *)p_a[0] + i * 1 * 1, arg_idx);
 
           arg_idx[0]++;
         }
@@ -161,7 +162,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
       for (int n_x = start[0] + ((end[0] - start[0]) / SIMD_VEC) * SIMD_VEC;
            n_x < end[0]; n_x++) {
         // call kernel function, passing in pointers to data - remainder
-        gridsetup_kernel_x((double *)p_a[0], arg_idx);
+        gridsetup_kernel_facex((double *)p_a[0], arg_idx);
 
         // shift pointers to data x direction
         p_a[0] = p_a[0] + (dat0 * off0_0);

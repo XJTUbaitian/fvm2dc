@@ -3,21 +3,22 @@
 //
 
 // user function
-inline void gridsetup_kernel_x(double *val, int *idx) {
+inline void gridsetup_kernel_facey(double *val, int *idx) {
 
-  double d_x;
-  if (idx[0] == 0 | idx[0] == 1) {
+  double d_y;
+  if (idx[1] == 0 | idx[1] == 1) {
     val[OPS_ACC0(0, 0)] = 0;
   } else {
-    d_x = (xmax - xmin) / (double)xcells;
+    d_y = (ymax - ymin) / (double)ycells;
 
-    val[OPS_ACC0(0, 0)] = 0.0 + d_x * idx[0];
+    val[OPS_ACC0(0, 0)] = 1.0 + d_y * idx[1];
   }
 }
 
 // host stub function
-void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
-                                     int *range, ops_arg arg0, ops_arg arg1) {
+void ops_par_loop_gridsetup_kernel_facey(char const *name, ops_block block,
+                                         int dim, int *range, ops_arg arg0,
+                                         ops_arg arg1) {
 
   // Timing
   double t1, t2, c1, c2;
@@ -27,13 +28,13 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
   ops_arg args[2] = {arg0, arg1};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 2, range, 0))
+  if (!ops_checkpointing_before(args, 2, range, 1))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(0, "gridsetup_kernel_x");
-    OPS_kernels[0].count++;
+    ops_timing_realloc(1, "gridsetup_kernel_facey");
+    OPS_kernels[1].count++;
     ops_timers_core(&c2, &t2);
   }
 
@@ -71,7 +72,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
   }
 #endif
 #ifdef OPS_DEBUG
-  ops_register_args(args, "gridsetup_kernel_x");
+  ops_register_args(args, "gridsetup_kernel_facey");
 #endif
 
   offs[0][0] = args[0].stencil->stride[0] * 1; // unit step in x dimension
@@ -121,7 +122,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[0].mpi_time += t1 - t2;
+    OPS_kernels[1].mpi_time += t1 - t2;
   }
 
   int n_x;
@@ -132,7 +133,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
          n_x += SIMD_VEC) {
       // call kernel function, passing in pointers to data -vectorised
       for (int i = 0; i < SIMD_VEC; i++) {
-        gridsetup_kernel_x((double *)p_a[0] + i * 1 * 1, (int *)p_a[1]);
+        gridsetup_kernel_facey((double *)p_a[0] + i * 1 * 1, (int *)p_a[1]);
 
         arg_idx[0]++;
       }
@@ -144,7 +145,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
     for (int n_x = start[0] + ((end[0] - start[0]) / SIMD_VEC) * SIMD_VEC;
          n_x < end[0]; n_x++) {
       // call kernel function, passing in pointers to data - remainder
-      gridsetup_kernel_x((double *)p_a[0], (int *)p_a[1]);
+      gridsetup_kernel_facey((double *)p_a[0], (int *)p_a[1]);
 
       // shift pointers to data x direction
       p_a[0] = p_a[0] + (dat0 * off0_0);
@@ -162,7 +163,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
   }
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[0].time += t2 - t1;
+    OPS_kernels[1].time += t2 - t1;
   }
   ops_set_dirtybit_host(args, 2);
   ops_set_halo_dirtybit3(&args[0], range);
@@ -170,7 +171,7 @@ void ops_par_loop_gridsetup_kernel_x(char const *name, ops_block block, int dim,
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c1, &t1);
-    OPS_kernels[0].mpi_time += t1 - t2;
-    OPS_kernels[0].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[1].mpi_time += t1 - t2;
+    OPS_kernels[1].transfer += ops_compute_transfer(dim, start, end, &arg0);
   }
 }

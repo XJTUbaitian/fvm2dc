@@ -22,4 +22,5 @@ extern double ymax;
 extern int ycells;
 
 // user kernel files
-#include "gridsetup_kernel_x_omp_kernel.cpp"
+#include "gridsetup_kernel_facex_omp_kernel.cpp"
+#include "gridsetup_kernel_facey_omp_kernel.cpp"

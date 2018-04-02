@@ -39,8 +39,8 @@ int main(int argc, char **argv) {
 	ymax = 2.0;
 	ylength = ymax - ymin;
 
-	xcells = 3;
-	ycells = 5;
+	xcells = 5;
+	ycells = 8;
 
 	xL1 = xcells + 2;
 	yM1 = ycells + 2;
