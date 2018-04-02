@@ -20,7 +20,15 @@ extern int xcells;
 extern double ymin;
 extern double ymax;
 extern int ycells;
+extern int xL1;
+extern int yM1;
 
 // user kernel files
+#include "gridsetup_kernel_celldx_omp_kernel.cpp"
+#include "gridsetup_kernel_celldy_omp_kernel.cpp"
+#include "gridsetup_kernel_cellx_omp_kernel.cpp"
+#include "gridsetup_kernel_celly_omp_kernel.cpp"
+#include "gridsetup_kernel_facedx_omp_kernel.cpp"
+#include "gridsetup_kernel_facedy_omp_kernel.cpp"
 #include "gridsetup_kernel_facex_omp_kernel.cpp"
 #include "gridsetup_kernel_facey_omp_kernel.cpp"

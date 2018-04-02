@@ -85,11 +85,25 @@ void initialize()
   ops_decl_const2("ymin", 1, "double", &ymin);
   ops_decl_const2("ymax", 1, "double", &ymax);
   ops_decl_const2("ycells", 1, "int", &ycells);
+  ops_decl_const2("xL1", 1, "int", &xL1);
+  ops_decl_const2("yM1", 1, "int", &yM1);
 
   ops_diagnostic_output();
 
   int s2D_00[] = {0, 0};
   S2D_00 = ops_decl_stencil(2, 1, s2D_00, "00");
+
+  int s2D_00_P10[] = {0, 0, 1, 0};
+  S2D_00_P10 = ops_decl_stencil(2, 2, s2D_00_P10, "00:10");
+
+  int s2D_00_M10[] = {0, 0, -1, 0};
+  S2D_00_M10 = ops_decl_stencil(2, 2, s2D_00_M10, "00:-10");
+
+  int s2D_00_0P1[] = {0, 0, 0, 1};
+  S2D_00_0P1 = ops_decl_stencil(2, 2, s2D_00_0P1, "00:01");
+
+  int s2D_00_0M1[] = {0, 0, 0, -1};
+  S2D_00_0M1 = ops_decl_stencil(2, 2, s2D_00_0M1, "00:0-1");
 
   int s2D_00_P10_M10_0P1_0M1[] = {0, 0, 1, 0, -1, 0, 0, 1, 0, -1};
   S2D_00_P10_M10_0P1_0M1 =

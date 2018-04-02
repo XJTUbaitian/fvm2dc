@@ -29,8 +29,12 @@ int main(int argc, char **argv) {
 	if ((fp = fopen("result.txt", "w")) == NULL) {
 		printf("can't open file %s\n", "result.txt");
 		exit(2);
-	}
+	} //open result.txt
+
 	iter = 500;
+    lsolve[4]=true;
+    lprint[4]=true;
+    title[4]="temperature";
 
 	xmin = 0.0;
 	xmax = 1.0;
@@ -49,6 +53,7 @@ int main(int argc, char **argv) {
 	xL3 = xL2 - 1;
 	yM2 = yM1 - 1;
 	yM3 = yM2 - 1;
+	coordmode=1;
 	ops_init(argc, argv, 5);
 
 	initialize();

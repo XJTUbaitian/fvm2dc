@@ -6,39 +6,30 @@
 #endif
 
 // user function
-inline void gridsetup_kernel_facex(double *val, int *idx) {
+inline void gridsetup_kernel_facedy(double *facedy, double *facey, int *idx) {
 
-  double d_x;
-  if (idx[0] == 0) {
-    val[OPS_ACC0(0, 0)] = 0;
-  } else if (idx[0] == xL1) {
-    val[OPS_ACC0(0, 0)] = xmax;
-  } else {
-    d_x = (xmax - xmin) / (double)xcells;
-
-    val[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
-  }
+  facedy[OPS_ACC0(0, 0)] = facey[OPS_ACC0(0, 0)] - facey[OPS_ACC0(0, -1)];
 }
 
 // host stub function
-void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
-                                         int dim, int *range, ops_arg arg0,
-                                         ops_arg arg1) {
+void ops_par_loop_gridsetup_kernel_facedy(char const *name, ops_block block,
+                                          int dim, int *range, ops_arg arg0,
+                                          ops_arg arg1, ops_arg arg2) {
 
   // Timing
   double t1, t2, c1, c2;
 
-  int offs[2][2];
-  ops_arg args[2] = {arg0, arg1};
+  int offs[3][2];
+  ops_arg args[3] = {arg0, arg1, arg2};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 2, range, 0))
+  if (!ops_checkpointing_before(args, 3, range, 6))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(0, "gridsetup_kernel_facex");
-    OPS_kernels[0].count++;
+    ops_timing_realloc(6, "gridsetup_kernel_facedy");
+    OPS_kernels[6].count++;
     ops_timers_core(&c1, &t1);
   }
 
@@ -77,7 +68,7 @@ void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
   }
 #endif
 #ifdef OPS_DEBUG
-  ops_register_args(args, "gridsetup_kernel_facex");
+  ops_register_args(args, "gridsetup_kernel_facedy");
 #endif
 
   offs[0][0] = args[0].stencil->stride[0] * 1; // unit step in x dimension
@@ -85,14 +76,22 @@ void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
       off2D(1, &start[0], &end[0], args[0].dat->size, args[0].stencil->stride) -
       offs[0][0];
 
+  offs[1][0] = args[1].stencil->stride[0] * 1; // unit step in x dimension
+  offs[1][1] =
+      off2D(1, &start[0], &end[0], args[1].dat->size, args[1].stencil->stride) -
+      offs[1][0];
+
   int off0_0 = offs[0][0];
   int off0_1 = offs[0][1];
   int dat0 = args[0].dat->elem_size;
+  int off1_0 = offs[1][0];
+  int off1_1 = offs[1][1];
+  int dat1 = args[1].dat->elem_size;
 
   // Halo Exchanges
-  ops_H_D_exchanges_host(args, 2);
-  ops_halo_exchanges(args, 2, range);
-  ops_H_D_exchanges_host(args, 2);
+  ops_H_D_exchanges_host(args, 3);
+  ops_halo_exchanges(args, 3, range);
+  ops_H_D_exchanges_host(args, 3);
 
 #ifdef _OPENMP
   int nthreads = omp_get_max_threads();
@@ -100,17 +99,18 @@ void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
   int nthreads = 1;
 #endif
   xdim0 = args[0].dat->size[0];
+  xdim1 = args[1].dat->size[0];
 
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[0].mpi_time += t2 - t1;
+    OPS_kernels[6].mpi_time += t2 - t1;
   }
 
 #pragma omp parallel for
   for (int thr = 0; thr < nthreads; thr++) {
 
     int y_size = end[1] - start[1];
-    char *p_a[2];
+    char *p_a[3];
 
     int start_i = start[1] + ((y_size - 1) / nthreads + 1) * thr;
     int finish_i =
@@ -145,34 +145,54 @@ void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
                                            args[0].dat->base[1] - d_m[1]);
     p_a[0] = (char *)args[0].data + base0;
 
-    p_a[1] = (char *)arg_idx;
+#ifdef OPS_MPI
+    for (int d = 0; d < dim; d++)
+      d_m[d] =
+          args[1].dat->d_m[d] + OPS_sub_dat_list[args[1].dat->index]->d_im[d];
+#else
+    for (int d = 0; d < dim; d++)
+      d_m[d] = args[1].dat->d_m[d];
+#endif
+    int base1 = dat1 * 1 * (start0 * args[1].stencil->stride[0] -
+                            args[1].dat->base[0] - d_m[0]);
+    base1 = base1 +
+            dat1 * args[1].dat->size[0] * (start1 * args[1].stencil->stride[1] -
+                                           args[1].dat->base[1] - d_m[1]);
+    p_a[1] = (char *)args[1].data + base1;
+
+    p_a[2] = (char *)arg_idx;
 
     for (int n_y = start_i; n_y < finish_i; n_y++) {
       for (int n_x = start[0]; n_x < start[0] + (end[0] - start[0]) / SIMD_VEC;
            n_x++) {
         // call kernel function, passing in pointers to data -vectorised
         for (int i = 0; i < SIMD_VEC; i++) {
-          gridsetup_kernel_facex((double *)p_a[0] + i * 1 * 1, arg_idx);
+          gridsetup_kernel_facedy((double *)p_a[0] + i * 1 * 1,
+                                  (const double *)p_a[1] + i * 1 * 1, arg_idx);
 
           arg_idx[0]++;
         }
 
         // shift pointers to data x direction
         p_a[0] = p_a[0] + (dat0 * off0_0) * SIMD_VEC;
+        p_a[1] = p_a[1] + (dat1 * off1_0) * SIMD_VEC;
       }
 
       for (int n_x = start[0] + ((end[0] - start[0]) / SIMD_VEC) * SIMD_VEC;
            n_x < end[0]; n_x++) {
         // call kernel function, passing in pointers to data - remainder
-        gridsetup_kernel_facex((double *)p_a[0], arg_idx);
+        gridsetup_kernel_facedy((double *)p_a[0], (const double *)p_a[1],
+                                arg_idx);
 
         // shift pointers to data x direction
         p_a[0] = p_a[0] + (dat0 * off0_0);
+        p_a[1] = p_a[1] + (dat1 * off1_0);
         arg_idx[0]++;
       }
 
       // shift pointers to data y direction
       p_a[0] = p_a[0] + (dat0 * off0_1);
+      p_a[1] = p_a[1] + (dat1 * off1_1);
 #ifdef OPS_MPI
       arg_idx[0] = sb->decomp_disp[0] + start0;
 #else
@@ -184,17 +204,18 @@ void ops_par_loop_gridsetup_kernel_facex(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[0].time += t1 - t2;
+    OPS_kernels[6].time += t1 - t2;
   }
 
-  ops_set_dirtybit_host(args, 2);
+  ops_set_dirtybit_host(args, 3);
 
   ops_set_halo_dirtybit3(&args[0], range);
 
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c2, &t2);
-    OPS_kernels[0].mpi_time += t2 - t1;
-    OPS_kernels[0].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[6].mpi_time += t2 - t1;
+    OPS_kernels[6].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[6].transfer += ops_compute_transfer(dim, start, end, &arg1);
   }
 }

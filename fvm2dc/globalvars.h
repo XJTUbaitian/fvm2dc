@@ -9,8 +9,13 @@
 #define FVM2DC_GLOBALVARS_H_
 
 #define  OPS_2D
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+#include <string>
 #include "ops_lib_cpp.h"
 
+using namespace std;
 //ops block
 extern ops_block fvm2d_grid; //grid
 
@@ -27,7 +32,7 @@ extern ops_dat xcvs; // xcvs
 extern ops_dat ycvs; // ycvs
 extern ops_dat xvel0; // U
 extern ops_dat yvel0; // V
-extern ops_dat presscorr; // P
+extern ops_dat presscorr; // PC
 extern ops_dat density; // RHO
 extern ops_dat temperature; // T
 extern ops_dat xvelhat; // UHAT
@@ -39,6 +44,10 @@ extern ops_dat yvelhat; // VHAT
 
 //commonly used stencils
 extern ops_stencil S2D_00; // 00
+extern ops_stencil S2D_00_P10; // 00:10
+extern ops_stencil S2D_00_M10; // 00:-10
+extern ops_stencil S2D_00_0P1; // 00:01
+extern ops_stencil S2D_00_0M1; // 00:0-1
 extern ops_stencil S2D_00_P10_M10_0P1_0M1;
 extern FILE *fp;
 
@@ -60,6 +69,13 @@ extern int yM1;
 extern int yM2;
 extern int yM3;
 extern int iter;
+extern bool lsolve[14];
+extern bool lprint[14];
+extern bool lblk[14];
+extern bool lstop;
+extern string title[14];
+
+extern int coordmode;
 
 
 #endif /* FVM2DC_GLOBALVARS_H_ */

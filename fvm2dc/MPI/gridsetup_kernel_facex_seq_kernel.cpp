@@ -6,12 +6,14 @@
 inline void gridsetup_kernel_facex(double *val, int *idx) {
 
   double d_x;
-  if (idx[0] == 0 | idx[0] == 1) {
+  if (idx[0] == 0) {
     val[OPS_ACC0(0, 0)] = 0;
+  } else if (idx[0] == xL1) {
+    val[OPS_ACC0(0, 0)] = xmax;
   } else {
     d_x = (xmax - xmin) / (double)xcells;
 
-    val[OPS_ACC0(0, 0)] = 0.0 + d_x * idx[0];
+    val[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
   }
 }
 

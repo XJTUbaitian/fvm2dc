@@ -19,6 +19,8 @@ __constant__ int xcells;
 __constant__ double ymin;
 __constant__ double ymax;
 __constant__ int ycells;
+__constant__ int xL1;
+__constant__ int yM1;
 
 void ops_decl_const_char(int dim, char const *type, int size, char *dat,
                          char const *name) {
@@ -34,6 +36,10 @@ void ops_decl_const_char(int dim, char const *type, int size, char *dat,
     cutilSafeCall(cudaMemcpyToSymbol(ymax, dat, dim * size));
   } else if (!strcmp(name, "ycells")) {
     cutilSafeCall(cudaMemcpyToSymbol(ycells, dat, dim * size));
+  } else if (!strcmp(name, "xL1")) {
+    cutilSafeCall(cudaMemcpyToSymbol(xL1, dat, dim * size));
+  } else if (!strcmp(name, "yM1")) {
+    cutilSafeCall(cudaMemcpyToSymbol(yM1, dat, dim * size));
   } else {
     printf("error: unknown const name\n");
     exit(1);
@@ -41,5 +47,11 @@ void ops_decl_const_char(int dim, char const *type, int size, char *dat,
 }
 
 // user kernel files
+#include "gridsetup_kernel_celldx_cuda_kernel.cu"
+#include "gridsetup_kernel_celldy_cuda_kernel.cu"
+#include "gridsetup_kernel_cellx_cuda_kernel.cu"
+#include "gridsetup_kernel_celly_cuda_kernel.cu"
+#include "gridsetup_kernel_facedx_cuda_kernel.cu"
+#include "gridsetup_kernel_facedy_cuda_kernel.cu"
 #include "gridsetup_kernel_facex_cuda_kernel.cu"
 #include "gridsetup_kernel_facey_cuda_kernel.cu"

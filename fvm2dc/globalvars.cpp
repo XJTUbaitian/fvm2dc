@@ -31,6 +31,10 @@ ops_dat yvelhat; // VHAT
 
 //commonly used stencils
 ops_stencil S2D_00; // 00
+ops_stencil S2D_00_P10; // 00:10
+ops_stencil S2D_00_M10; // 00:-10
+ops_stencil S2D_00_0P1; // 00:01
+ops_stencil S2D_00_0M1; // 00:0-1
 ops_stencil S2D_00_P10_M10_0P1_0M1;
 
 FILE *fp;
@@ -50,4 +54,9 @@ int yM1;
 int yM2;
 int yM3;
 int iter;
-
+bool lsolve[14];
+bool lprint[14];
+bool lblk[14];
+bool lstop;
+string title[14];
+int coordmode=1;

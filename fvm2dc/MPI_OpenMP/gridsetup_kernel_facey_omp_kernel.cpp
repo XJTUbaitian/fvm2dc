@@ -9,12 +9,14 @@
 inline void gridsetup_kernel_facey(double *val, int *idx) {
 
   double d_y;
-  if (idx[1] == 0 | idx[1] == 1) {
+  if (idx[1] == 0) {
     val[OPS_ACC0(0, 0)] = 0;
+  } else if (idx[1] == yM1) {
+    val[OPS_ACC0(0, 0)] = ymax;
   } else {
     d_y = (ymax - ymin) / (double)ycells;
 
-    val[OPS_ACC0(0, 0)] = 1.0 + d_y * idx[1];
+    val[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1);
   }
 }
 
@@ -30,13 +32,13 @@ void ops_par_loop_gridsetup_kernel_facey(char const *name, ops_block block,
   ops_arg args[2] = {arg0, arg1};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 2, range, 1))
+  if (!ops_checkpointing_before(args, 2, range, 4))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(1, "gridsetup_kernel_facey");
-    OPS_kernels[1].count++;
+    ops_timing_realloc(4, "gridsetup_kernel_facey");
+    OPS_kernels[4].count++;
     ops_timers_core(&c1, &t1);
   }
 
@@ -101,7 +103,7 @@ void ops_par_loop_gridsetup_kernel_facey(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[1].mpi_time += t2 - t1;
+    OPS_kernels[4].mpi_time += t2 - t1;
   }
 
 #pragma omp parallel for
@@ -182,7 +184,7 @@ void ops_par_loop_gridsetup_kernel_facey(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[1].time += t1 - t2;
+    OPS_kernels[4].time += t1 - t2;
   }
 
   ops_set_dirtybit_host(args, 2);
@@ -192,7 +194,7 @@ void ops_par_loop_gridsetup_kernel_facey(char const *name, ops_block block,
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c2, &t2);
-    OPS_kernels[1].mpi_time += t2 - t1;
-    OPS_kernels[1].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[4].mpi_time += t2 - t1;
+    OPS_kernels[4].transfer += ops_compute_transfer(dim, start, end, &arg0);
   }
 }
