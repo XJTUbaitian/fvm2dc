@@ -58,6 +58,10 @@ void initialize()
   size[1] = 1;
   facedx = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
                         "facedx");
+  xcvi =
+      ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "xcvi");
+  xcvip = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+                       "xcvip");
 
   size[0] = 1;
   size[1] = yM1;
@@ -104,6 +108,9 @@ void initialize()
 
   int s2D_00_0M1[] = {0, 0, 0, -1};
   S2D_00_0M1 = ops_decl_stencil(2, 2, s2D_00_0M1, "00:0-1");
+
+  int s2D_00_P1_M10[] = {0, 0, 1, 0, -1, 0};
+  S2D_00_P10_M10 = ops_decl_stencil(2, 3, s2D_00_P1_M10, "00:10:-10");
 
   int s2D_00_P10_M10_0P1_0M1[] = {0, 0, 1, 0, -1, 0, 0, 1, 0, -1};
   S2D_00_P10_M10_0P1_0M1 =

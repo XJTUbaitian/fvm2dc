@@ -47,6 +47,15 @@ void gridsetup_kernel_facedx(double *facedx, double *facex, int *idx) {
 	facedx[OPS_ACC0(0,0)]=facex[OPS_ACC0(0,0)]-facex[OPS_ACC0(-1,0)];
 
 }
+void gridsetup_kernel_xcvs(double *xcvs, double *celldx, int *idx) {
+
+	if (idx[0] == 0) {
+	} else if (idx[0] == xL1) {
+	} else {
+
+		xcvs[OPS_ACC0(0,0)]=celldx[OPS_ACC0(0,0)];}
+
+}
 
 
 void gridsetup_kernel_celly(double *celly, double *facey, int *idx) {

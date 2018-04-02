@@ -27,3 +27,4 @@ extern int yM1;
 #include "gridsetup_kernel_facedy_seq_kernel.cpp"
 #include "gridsetup_kernel_facex_seq_kernel.cpp"
 #include "gridsetup_kernel_facey_seq_kernel.cpp"
+#include "gridsetup_kernel_xcvs_seq_kernel.cpp"

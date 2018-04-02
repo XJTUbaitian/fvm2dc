@@ -32,3 +32,4 @@ extern int yM1;
 #include "gridsetup_kernel_facedy_omp_kernel.cpp"
 #include "gridsetup_kernel_facex_omp_kernel.cpp"
 #include "gridsetup_kernel_facey_omp_kernel.cpp"
+#include "gridsetup_kernel_xcvs_omp_kernel.cpp"

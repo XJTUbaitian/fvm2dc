@@ -6,15 +6,20 @@
 #endif
 
 // user function
-inline void gridsetup_kernel_celldy(double *celldy, double *celly, int *idx) {
+inline void gridsetup_kernel_xcvs(double *xcvs, double *celldx, int *idx) {
 
-  celldy[OPS_ACC0(0, 0)] = celly[OPS_ACC0(0, 0)] - celly[OPS_ACC0(0, -1)];
+  if (idx[0] == 0) {
+  } else if (idx[0] == xL1) {
+  } else {
+
+    xcvs[OPS_ACC0(0, 0)] = celldx[OPS_ACC0(0, 0)];
+  }
 }
 
 // host stub function
-void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
-                                          int dim, int *range, ops_arg arg0,
-                                          ops_arg arg1, ops_arg arg2) {
+void ops_par_loop_gridsetup_kernel_xcvs(char const *name, ops_block block,
+                                        int dim, int *range, ops_arg arg0,
+                                        ops_arg arg1, ops_arg arg2) {
 
   // Timing
   double t1, t2, c1, c2;
@@ -23,13 +28,13 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
   ops_arg args[3] = {arg0, arg1, arg2};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 3, range, 8))
+  if (!ops_checkpointing_before(args, 3, range, 4))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(8, "gridsetup_kernel_celldy");
-    OPS_kernels[8].count++;
+    ops_timing_realloc(4, "gridsetup_kernel_xcvs");
+    OPS_kernels[4].count++;
     ops_timers_core(&c1, &t1);
   }
 
@@ -68,7 +73,7 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
   }
 #endif
 #ifdef OPS_DEBUG
-  ops_register_args(args, "gridsetup_kernel_celldy");
+  ops_register_args(args, "gridsetup_kernel_xcvs");
 #endif
 
   offs[0][0] = args[0].stencil->stride[0] * 1; // unit step in x dimension
@@ -103,7 +108,7 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[8].mpi_time += t2 - t1;
+    OPS_kernels[4].mpi_time += t2 - t1;
   }
 
 #pragma omp parallel for
@@ -167,8 +172,8 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
            n_x++) {
         // call kernel function, passing in pointers to data -vectorised
         for (int i = 0; i < SIMD_VEC; i++) {
-          gridsetup_kernel_celldy((double *)p_a[0] + i * 1 * 1,
-                                  (const double *)p_a[1] + i * 1 * 1, arg_idx);
+          gridsetup_kernel_xcvs((double *)p_a[0] + i * 1 * 1,
+                                (const double *)p_a[1] + i * 1 * 1, arg_idx);
 
           arg_idx[0]++;
         }
@@ -181,8 +186,8 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
       for (int n_x = start[0] + ((end[0] - start[0]) / SIMD_VEC) * SIMD_VEC;
            n_x < end[0]; n_x++) {
         // call kernel function, passing in pointers to data - remainder
-        gridsetup_kernel_celldy((double *)p_a[0], (const double *)p_a[1],
-                                arg_idx);
+        gridsetup_kernel_xcvs((double *)p_a[0], (const double *)p_a[1],
+                              arg_idx);
 
         // shift pointers to data x direction
         p_a[0] = p_a[0] + (dat0 * off0_0);
@@ -204,7 +209,7 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[8].time += t1 - t2;
+    OPS_kernels[4].time += t1 - t2;
   }
 
   ops_set_dirtybit_host(args, 3);
@@ -214,8 +219,8 @@ void ops_par_loop_gridsetup_kernel_celldy(char const *name, ops_block block,
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c2, &t2);
-    OPS_kernels[8].mpi_time += t2 - t1;
-    OPS_kernels[8].transfer += ops_compute_transfer(dim, start, end, &arg0);
-    OPS_kernels[8].transfer += ops_compute_transfer(dim, start, end, &arg1);
+    OPS_kernels[4].mpi_time += t2 - t1;
+    OPS_kernels[4].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[4].transfer += ops_compute_transfer(dim, start, end, &arg1);
   }
 }

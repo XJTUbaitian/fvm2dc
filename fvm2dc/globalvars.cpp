@@ -21,6 +21,10 @@ ops_dat facedx; // xcv
 ops_dat facedy; // ycv
 ops_dat xcvs; // xcvs
 ops_dat ycvs; // ycvs
+
+ops_dat xcvi; // xcvi
+ops_dat xcvip; // xcvip
+
 ops_dat xvel0; // U
 ops_dat yvel0; // V
 ops_dat presscorr; // P
@@ -35,6 +39,7 @@ ops_stencil S2D_00_P10; // 00:10
 ops_stencil S2D_00_M10; // 00:-10
 ops_stencil S2D_00_0P1; // 00:01
 ops_stencil S2D_00_0M1; // 00:0-1
+ops_stencil S2D_00_P10_M10; //00:10:-10
 ops_stencil S2D_00_P10_M10_0P1_0M1;
 
 FILE *fp;
