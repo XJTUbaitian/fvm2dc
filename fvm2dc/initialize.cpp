@@ -81,6 +81,8 @@ xcvip = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "xcvip
 size[0]=1;
 size[1]=yM1;
 facedy = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "facedy");
+
+
 size[0]=xL1;
 size[1]=yM1;
 xvel0      = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "xvel0");

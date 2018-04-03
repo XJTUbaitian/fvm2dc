@@ -25,6 +25,19 @@ ops_dat ycvs; // ycvs
 ops_dat xcvi; // xcvi
 ops_dat xcvip; // xcvip
 
+
+ops_dat ycvr; // xcvi
+ops_dat ycvrs; // xcvip
+
+ops_dat arx;
+ops_dat arxj;
+ops_dat arxjp;
+ops_dat radius;
+ops_dat rmn;
+
+ops_dat sx;
+ops_dat sxmn;
+
 ops_dat xvel0; // U
 ops_dat yvel0; // V
 ops_dat presscorr; // P

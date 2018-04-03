@@ -32,8 +32,18 @@ extern ops_dat xcvs; // xcvs
 extern ops_dat ycvs; // ycvs
 extern ops_dat xcvi; // xcvi
 extern ops_dat xcvip; // xcvip
-//extern ops_dat ycvi; // xcvi
-//extern ops_dat ycvip; // xcvip
+extern ops_dat ycvr; // xcvi
+extern ops_dat ycvrs; // xcvip
+
+extern ops_dat arx;
+extern ops_dat arxj;
+extern ops_dat arxjp;
+extern ops_dat radius;
+extern ops_dat rmn;
+
+extern ops_dat sx;
+extern ops_dat sxmn;
+
 
 extern ops_dat xvel0; // U
 extern ops_dat yvel0; // V

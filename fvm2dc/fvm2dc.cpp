@@ -22,7 +22,7 @@
 // fvm2dc functions
 void initialize();
 void gridsetup();
-
+void buildinitialfield();
 
 int main(int argc, char **argv) {
 
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
 //  ops_diagnostic_output();
 
-//buildinitialfield();
+buildinitialfield();
 /*
 	while () {
 		dense();

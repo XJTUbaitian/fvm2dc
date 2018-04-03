@@ -95,15 +95,4 @@ void gridsetup()
 
 	}
 
-/*
-	iter_range[0] = 0;
-	iter_range[0] = 0;
-	iter_range[0] = 0;
-	iter_range[0] = ycells;
-
-	ops_par_loop(gridsetup_kernel_x, "facesetup_kernel", fvm2d_grid, 2, iter_range,
-	              ops_arg_dat(facey, 1, S2D_00, "double", OPS_WRITE),
-	              ops_arg_idx());
-	ops_print_dat_to_txtfile(facex, "facex.dat");
-*/
 }
