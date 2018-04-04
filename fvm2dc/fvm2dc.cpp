@@ -1,9 +1,51 @@
 /*
+
+ Open source copyright declaration based on BSD open source template:
+ https://opensource.org/licenses/BSD-3-Clause
+
+ This file is part of the fvm2d distribution.
+
+
+ Copyright (c) 2018, Mingtao Li.
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+ * Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY Mingtao Li "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+ @author Mingtao Li
+ mingtao.li@gmail.com
+*/
+
+/*
  * fvm2dc.cpp
  *
  *  Created on: Mar 31, 2018
- *      Author: limingtao
+ *      Author: Mingtao Li
  */
+
 
 // standard headers
 #include <stdlib.h>
@@ -11,13 +53,12 @@
 #include <string.h>
 #include <math.h>
 
-
 // OPS header file
+#define  OPS_2D
 #include "ops_seq.h"
 
 // fvm2dc constants
 #include "globalvars.h"
-
 
 // fvm2dc functions
 void initialize();
@@ -32,9 +73,9 @@ int main(int argc, char **argv) {
 	} //open result.txt
 
 	iter = 500;
-    lsolve[4]=true;
-    lprint[4]=true;
-    title[4]="temperature";
+	lsolve[4] = true;
+	lprint[4] = true;
+	title[4] = "temperature";
 
 	xmin = 0.0;
 	xmax = 1.0;
@@ -53,7 +94,7 @@ int main(int argc, char **argv) {
 	xL3 = xL2 - 1;
 	yM2 = yM1 - 1;
 	yM3 = yM2 - 1;
-	coordmode=1;
+	coordmode = 1;
 	ops_init(argc, argv, 5);
 
 	initialize();
@@ -62,17 +103,17 @@ int main(int argc, char **argv) {
 
 //  ops_diagnostic_output();
 
-buildinitialfield();
-/*
-	while () {
-		dense();
-		bound();
-		output();
-		iternext();
-	}
+	buildinitialfield();
+	/*
+	 while () {
+	 dense();
+	 bound();
+	 output();
+	 iternext();
+	 }
 
-	output();
-*/
+	 output();
+	 */
 	ops_exit();
 	return 0;
 
