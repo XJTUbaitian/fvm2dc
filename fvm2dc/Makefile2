@@ -30,25 +30,15 @@ SEQ_KERNELS = fvm2dc_seq_kernels.cpp
 # master to make all versions
 #
 
-TARGETS = trans fvm2dc_seq
+TARGETS = fvm2dc_seq
 
 all: $(TARGETS)
 
-#
-trans:
-	ops.py fvm2dc.cpp globalvars.cpp initialize.cpp gridsetup.cpp buildinitialfield.cpp
-	mkdir -p ../../fvm2dc_ops
-	cp *_ops.cpp ../../fvm2dc_ops 
-	cp globalvars.h ../../fvm2dc_ops
-	cp Makefile2 ../../fvm2dc_ops/Makefile
-	cp -rf MPI ../../fvm2dc_ops
-	#cp -rf MPI_OpenMP ../../fvm2dc_ops
-	#cp -rf CUDA ../../fvm2dc_ops
-fvm2dc_seq: Makefile fvm2dc.cpp $(OPS_INSTALL_PATH)/c/lib/libops_seq.a
-	$(CPP) $(MPIFLAGS)  $(OPS_INC) $(OPS_LIB) -I. globalvars.cpp initialize.cpp gridsetup_ops.cpp buildinitialfield_ops.cpp -I. ./MPI/$(SEQ_KERNELS) fvm2dc_ops.cpp -lops_seq $(HDF5_LIB) -o fvm2dc_seq
+fvm2dc_seq: 
+	$(CPP) $(MPIFLAGS)  $(OPS_INC) $(OPS_LIB) -I. globalvars_ops.cpp initialize_ops.cpp gridsetup_ops.cpp buildinitialfield_ops.cpp -I. ./MPI/$(SEQ_KERNELS) fvm2dc_ops.cpp -lops_seq $(HDF5_LIB) -o fvm2dc_seq
 
 clean:
-	rm -f fvm2dc_seq globalvars_ops.cpp initialize_ops.cpp gridsetup_ops.cpp buildinitialfield_ops.cpp fvm2dc_ops.cpp *.o result.txt facex.dat facey.dat cellx.dat celly.dat
-	rm -f MPI/*
-	rm -f MPI_OpenMP/*
-	rm -f CUDA/*
+	rm -f buildinitialfield_ops.cpp fvm2dc_ops.cpp globalvars.h globalvars_ops.cpp gridsetup_ops.cpp initialize_ops.cpp Makefile
+	rm -rf CUDA/
+	rm -rf MPI/
+	rm -rf MPI_OpenMP/

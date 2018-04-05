@@ -32,19 +32,19 @@ void gridsetup_kernel_facey(double *val, int *idx) {
 
 void gridsetup_kernel_cellx(double *cellx, double *facex, int *idx) {
 
-cellx[OPS_ACC0(0,0)]=(facex[OPS_ACC0(0,0)]+facex[OPS_ACC0(1,0)])/2.0;
+cellx[OPS_ACC0(0,0)]=(facex[OPS_ACC1(0,0)]+facex[OPS_ACC1(1,0)])/2.0;
 
 }
 
 void gridsetup_kernel_celldx(double *celldx, double *cellx, int *idx) {
 
-celldx[OPS_ACC0(0,0)]=cellx[OPS_ACC0(0,0)]-cellx[OPS_ACC0(-1,0)];
+celldx[OPS_ACC0(0,0)]=cellx[OPS_ACC1(0,0)]-cellx[OPS_ACC1(-1,0)];
 
 }
 
 void gridsetup_kernel_facedx(double *facedx, double *facex, int *idx) {
 
-	facedx[OPS_ACC0(0,0)]=facex[OPS_ACC0(0,0)]-facex[OPS_ACC0(-1,0)];
+	facedx[OPS_ACC0(0,0)]=facex[OPS_ACC1(0,0)]-facex[OPS_ACC1(-1,0)];
 
 }
 void gridsetup_kernel_xcvs(double *xcvs, double *celldx, int *idx) {
@@ -53,27 +53,27 @@ void gridsetup_kernel_xcvs(double *xcvs, double *celldx, int *idx) {
 	} else if (idx[0] == xL1) {
 	} else {
 
-		xcvs[OPS_ACC0(0,0)]=celldx[OPS_ACC0(0,0)];}
+		xcvs[OPS_ACC0(0,0)]=celldx[OPS_ACC1(0,0)];}
 
 }
 
 
 void gridsetup_kernel_celly(double *celly, double *facey, int *idx) {
 
-celly[OPS_ACC0(0,0)]=(facey[OPS_ACC0(0,0)]+facey[OPS_ACC0(0,1)])/2.0;
+celly[OPS_ACC0(0,0)]=(facey[OPS_ACC1(0,0)]+facey[OPS_ACC1(0,1)])/2.0;
 
 }
 
 void gridsetup_kernel_celldy(double *celldy, double *celly, int *idx) {
 
-	celldy[OPS_ACC0(0,0)]=celly[OPS_ACC0(0,0)]-celly[OPS_ACC0(0,-1)];
+	celldy[OPS_ACC0(0,0)]=celly[OPS_ACC1(0,0)]-celly[OPS_ACC1(0,-1)];
 
 }
 
 
 void gridsetup_kernel_facedy(double *facedy, double *facey, int *idx) {
 
-	facedy[OPS_ACC0(0,0)]=facey[OPS_ACC0(0,0)]-facey[OPS_ACC0(0,-1)];
+	facedy[OPS_ACC0(0,0)]=facey[OPS_ACC1(0,0)]-facey[OPS_ACC1(0,-1)];
 
 }
 

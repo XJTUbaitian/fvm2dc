@@ -42,11 +42,11 @@ void gridsetup()
 	              ops_arg_dat(celldx, 1, S2D_00, "double", OPS_WRITE),
 				  ops_arg_dat(cellx, 1, S2D_00_M10, "double", OPS_READ),
 	              ops_arg_idx());
-
-	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2d_grid, 2, iter_range,
-	              ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
-	              ops_arg_idx());
+	ops_print_dat_to_txtfile(facex, "facex.dat");
+//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2d_grid, 2, iter_range,
+//	              ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
+//				  ops_arg_dat(celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
+//	              ops_arg_idx());
 
 	iter_range[0] = 0;
 	iter_range[1] = 1;
@@ -72,9 +72,9 @@ void gridsetup()
 	              ops_arg_idx());
 
 
-//	ops_print_dat_to_txtfile(facex, "facex.dat");
-//	ops_print_dat_to_txtfile(facey, "facey.dat");
-//	ops_print_dat_to_txtfile(cellx, "cellx.dat");
+	ops_print_dat_to_txtfile(facex, "facex.dat");
+	ops_print_dat_to_txtfile(facey, "facey.dat");
+	ops_print_dat_to_txtfile(cellx, "cellx.dat");
 //	ops_print_dat_to_txtfile(celly, "celly.dat");
 //	ops_print_dat_to_txtfile(celldx, "celldx.dat");
 //	ops_print_dat_to_txtfile(celldy, "celldy.dat");
