@@ -69,15 +69,80 @@ tar zvxf pgilinux-2017-1710-x86_64.tar.gz
 apt-get install git
 ```
 
+### 安装eclipse
+
+eclipse是很好的跨平台集成开发环境。使用ubuntu源安装的eclipse有点旧。我们可以从eclipse的官方站点（ https://www.eclipse.org/downloads/ ）下载更新的版本。我们直接下载 Eclipse for Parallel Application Developers 这一版本，即eclipse-parallel-oxygen-2-linux-gtk-x86_64.tar.gz。通过如下命令把eclipse解压在/opt/下。
+
+```shell
+tar zvxf eclipse-parallel-oxygen-2-linux-gtk-x86_64.tar.gz -C /opt/
+```
+这样我们就可以使用/opt/eclipse/eclipse启动集成开发环境了。进一步我们可以把/opt/eclipse加到环境变量PATH，我们就可以直接使用eclipse启动集成开发环境。
+
+安装eclipse的intel CDT。集成开发环境安装好后，并不能够直接支持intel 的编译器套集。我们可以运行eclipse，然后点Help->Install New Software...->Add->Local...，选择 /opt/intel/composer_xe_2015.6.233/eclipse_support/cdt8.0/eclipse/ ，点ok， 勾选要安装的组件，然后按照提示安装完成。
+
+### 设置环境变量
+
+将如下内容添加到~/.bashrc的尾部。注意用户名修改一下，相应的目录修改正确。
+```shell
+export PATH=/opt/eclipse:$PATH
+
+source /opt/intel/parallel_studio_xe_2015/psxevars.sh intel64
+export INTEL_DISABLE_ISIP=1
+export MPI_INSTALL_PATH=/opt/intel/impi/5.0.3.049/intel64
+
+export OPS_COMPILER=intel
+export OPS_INSTALL_PATH=/home/username/localsoft/OPS/ops
+export CUDA_INSTALL_PATH=/usr/local/cuda
+export OPENCL_INSTALL_PATH=/usr/local/cuda
+export HDF5_INSTALL_PATH=/home/username/localsoft/hdf5
+export LD_LIBRARY_PATH=$HDF5_INSTALL_PATH/lib:$LD_LIBRARY_PATH
+
+export PATH=/home/username/localsoft/OPS/translator/python/c:$PATH
+
+export LD_LIBRARY_PATH=/home/limingtao/localsoft/tridsolver/scalar/build/lib:$LD_LIBRARY_PATH
+```
+
 ### 安装tridsolver
+
+首先通过如下代码获得tridsolver的源代码。
 
 ```shell
 git clone git@github.com:mingtaoli/tridsolver.git
 ```
 
+然后，阅读其README文件可知，tridsolver是分块三对角block和三对角scalar两个库的。我们使用scalar这个。按照README的说明使用如下命令安装
+
+```shell
+cd /path/to/tridsolver/scalar
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_CPU=ON -DBUILD_FOR_GPU=ON
+make
+make install
+```
+然后对tridsolver的例子进行学习和试运行。
+```shell
+cd /path/to/tridsolver/apps/adi
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_CPU=ON -DBUILD_FOR_GPU=ON
+make
+```
+不过这里要注意的是，需要修改CMakeLists.txt，把LIBTRID_PATH设为正确的值。
+
 使用如下命令安装cmake。
 ```shell
 apt-get install cmake
+```
+###安装hdf5
+
+OPS要用到hdf5,所以我们需要安装hdf5。到hdf的官方站点 （url???） 下载hdf5-1.10.1.tar.gz，
+```shell
+tar zvxf hdf5-1.10.1.tar.gz
+cd hdf5-1.10.1
+./configure --prefix=/home/username/localsoft/hdf5 --enable-fortran --enable-parallel CPP=cpp CC=mpiicc FC=mpiifort CFLAGS=-fPIC FCFLAGS=-fPIC
+make -j 4
+make install
 ```
 
 ### 安装ops库
@@ -92,22 +157,10 @@ OPS有个分支feature/Tridiagonal，支持tridsolver。但是这个分支暂时
 git checkout feature/Tridiagonal
 ```
 
+###安装clang-format
 ops.py实际上会使用clang-format进行最后cpp文件的格式化，所以我们需要安装clang-format
 ```shell
 apt-get install clang-format
 ```
-
-
-### 安装eclipse
-
-eclipse是很好的跨平台集成开发环境。使用ubuntu源安装的eclipse有点旧。我们可以从eclipse的官方站点（ https://www.eclipse.org/downloads/ ）下载更新的版本。我们直接下载 Eclipse for Parallel Application Developers 这一版本，即eclipse-parallel-oxygen-2-linux-gtk-x86_64.tar.gz。通过如下命令把eclipse解压在/opt/下。
-
-```shell
-tar zvxf eclipse-parallel-oxygen-2-linux-gtk-x86_64.tar.gz -C /opt/
-```
-这样我们就可以使用/opt/eclipse/eclipse启动集成开发环境了。进一步我们可以把/opt/eclipse加到环境变量PATH，我们就可以直接使用eclipse启动集成开发环境。
-
-安装eclipse的intel CDT。集成开发环境安装好后，并不能够直接支持intel 的编译器套集。我们可以运行eclipse，然后点Help->Install New Software...->Add->Local...，选择 /opt/intel/composer_xe_2015.6.233/eclipse_support/cdt8.0/eclipse/ ，点ok， 勾选要安装的组件，然后按照提示安装完成。
-
 
 ### 工作流程简介
