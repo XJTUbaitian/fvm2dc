@@ -157,7 +157,7 @@ OPS有个分支feature/Tridiagonal，支持tridsolver。但是这个分支暂时
 git checkout feature/Tridiagonal
 ```
 
-###安装clang-format
+### 安装clang-format
 ops.py实际上会使用clang-format进行最后cpp文件的格式化，所以我们需要安装clang-format
 ```shell
 apt-get install clang-format
