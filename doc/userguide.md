@@ -99,7 +99,7 @@ export LD_LIBRARY_PATH=$HDF5_INSTALL_PATH/lib:$LD_LIBRARY_PATH
 
 export PATH=/home/username/localsoft/OPS/translator/python/c:$PATH
 
-export LD_LIBRARY_PATH=/home/limingtao/localsoft/tridsolver/scalar/build/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/username/localsoft/tridsolver/scalar/build/lib:$LD_LIBRARY_PATH
 ```
 
 ### 安装tridsolver
