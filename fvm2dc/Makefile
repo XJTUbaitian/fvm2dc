@@ -37,11 +37,11 @@ all: $(TARGETS)
 #
 trans:
 	ops.py fvm2dc.cpp globalvars.cpp initialize.cpp gridsetup.cpp buildinitialfield.cpp
-	mkdir -p ../../fvm2dc_ops
-	cp *_ops.cpp ../../fvm2dc_ops 
-	cp globalvars.h ../../fvm2dc_ops
-	cp Makefile2 ../../fvm2dc_ops/Makefile
-	cp -rf MPI ../../fvm2dc_ops
+	mkdir -p ../fvm2dc_ops
+	cp *_ops.cpp ../fvm2dc_ops 
+	cp globalvars.h ../fvm2dc_ops
+	cp Makefile2 ../fvm2dc_ops/Makefile
+	cp -rf MPI ../fvm2dc_ops
 	#cp -rf MPI_OpenMP ../../fvm2dc_ops
 	#cp -rf CUDA ../../fvm2dc_ops
 fvm2dc_seq: Makefile fvm2dc.cpp $(OPS_INSTALL_PATH)/c/lib/libops_seq.a
@@ -52,3 +52,4 @@ clean:
 	rm -f MPI/*
 	rm -f MPI_OpenMP/*
 	rm -f CUDA/*
+	rm -rf ../fvm2dc_ops/*
