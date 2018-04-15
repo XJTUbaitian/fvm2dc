@@ -3,7 +3,7 @@
  Open source copyright declaration based on BSD open source template:
  https://opensource.org/licenses/BSD-3-Clause
 
- This file is part of the fvm2d distribution.
+ This file is part of the fvm2dc distribution.
 
 
  Copyright (c) 2018, Mingtao Li.
@@ -49,7 +49,7 @@
 #include "globalvars.h"
 
 //ops block
-ops_block fvm2d_grid; //grid
+ops_block fvm2dc_grid; //grid
 
 //ops dats
 ops_dat facex; // xu
@@ -112,9 +112,9 @@ int yM1;
 int yM2;
 int yM3;
 int iter;
-bool lsolve[14];
-bool lprint[14];
-bool lblk[14];
-bool lstop;
+int lsolve[14];
+int lprint[14];
+int lblk[14];
+int lstop;
 string title[14];
 int coordmode=1;

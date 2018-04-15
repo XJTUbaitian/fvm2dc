@@ -63,7 +63,7 @@ void initialize()
 
 {
 
-	fvm2d_grid = ops_decl_block(2, "fvm2d_grid");
+	fvm2dc_grid = ops_decl_block(2, "fvm2d_grid");
 
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
@@ -74,67 +74,67 @@ void initialize()
 	//XU
 	size[0] = xL1 + 1;
 	size[1] = 1;
-	facex = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "facex");
+	facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facex");
 
 	//YV
 	size[0] = 1;
 	size[1] = yM1 + 1;
-	facey = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double", "facey");
+	facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facey");
 	//X
 	size[0] = xL1;
 	size[1] = 1;
-	cellx = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	cellx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"cellx");
 
 	//Y
 	size[0] = 1;
 	size[1] = yM1;
-	celly = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"celly");
 
 	//XDIF
 	size[0] = xL1;
 	size[1] = 1;
-	celldx = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	celldx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"celldx");
 
 	//YDIF
 	size[0] = 1;
 	size[1] = yM1;
-	celldy = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"celldy");
 
 	//XCV
 	size[0] = xL1;
 	size[1] = 1;
-	facedx = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	facedx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"facedx");
-	xcvi = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	xcvi = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvi");
-	xcvip = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvip");
 
 	//YCV
 	size[0] = 1;
 	size[1] = yM1;
-	facedy = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	facedy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"facedy");
 
 	size[0] = xL1;
 	size[1] = yM1;
-	xvel0 = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	xvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xvel0");
-	yvel0 = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	yvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"yvel0");
-	presscorr = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp,
+	presscorr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "presscorr");
-	density = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	density = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"density");
-	temperature = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp,
+	temperature = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "temperature");
-	xvelhat = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	xvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xvelhat");
-	yvelhat = ops_decl_dat(fvm2d_grid, 1, size, base, d_m, d_p, temp, "double",
+	yvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"yvelhat");
 
 	ops_decl_const("xmin", 1, "double", &xmin);
