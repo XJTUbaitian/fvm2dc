@@ -36,6 +36,8 @@ tar zvxf parallel_studio_xe_2015_update6.tgz
 cd parallel_studio_xe_2015_update6
 ./install.sh
 ```
+如果缺少相应的软件包，逐一安装了再安装parallel studio。
+
 实际上intel parallel studio包含fortran编译器、c（c++）编译器、mkl数学库、intel mpi并行消息传递软件等。
 
 ### 安装cuda
@@ -68,6 +70,7 @@ tar zvxf pgilinux-2017-1710-x86_64.tar.gz
 ```shell
 apt-get install git
 ```
+参考网上的git教程对该工具有个概貌的了解。
 
 ### 安装eclipse
 
@@ -101,6 +104,7 @@ export PATH=/home/username/localsoft/OPS/translator/python/c:$PATH
 
 export LD_LIBRARY_PATH=/home/username/localsoft/tridsolver/scalar/build/lib:$LD_LIBRARY_PATH
 ```
+将username修改成自己的用户名。
 
 ### 安装tridsolver
 
@@ -128,13 +132,15 @@ cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_FOR_CPU=ON -DBUILD_FOR_GPU=ON
 make
 ```
-不过这里要注意的是，需要修改CMakeLists.txt，把LIBTRID_PATH设为正确的值。
+其中的/path/to/tridsolver改为自己系统上的tridsolver目录。
 
-使用如下命令安装cmake。
+不过这里还有要注意的是，需要修改CMakeLists.txt，把LIBTRID_PATH设为正确的值。
+
+如果系统没有cmake，使用如下命令安装cmake。
 ```shell
 apt-get install cmake
 ```
-###安装hdf5
+### 安装hdf5
 
 OPS要用到hdf5,所以我们需要安装hdf5。到hdf的官方站点 （url???） 下载hdf5-1.10.1.tar.gz，
 ```shell
@@ -156,6 +162,12 @@ OPS有个分支feature/Tridiagonal，支持tridsolver。但是这个分支暂时
 ```shell
 git checkout feature/Tridiagonal
 ```
+通过如下命令编译ops库：
+```shell
+cd /path/to/OPS/ops/c/
+make
+```
+在这之前，我们需要修改Makefile，把一些路径修改正确。而且还有，intel编译器使用的mpicc实际上是mpiicc，mpicxx实际上使用mpiicpc，作相应修改。完全不知道Makefile的请到网上查阅makefile相关知识。
 
 ### 安装clang-format
 ops.py实际上会使用clang-format进行最后cpp文件的格式化，所以我们需要安装clang-format
@@ -164,3 +176,31 @@ apt-get install clang-format
 ```
 
 ### 工作流程简介
+
+首先使用git clone我们的fvm2dc库。
+```shell
+mkdir -p ~/projects
+cd ~/projects
+git clone git@github:mingtaoli/fvm2dc.git
+```
+如果没有权限，请申请github账户，并与我联系。只读clone可使用
+```shell
+git clone https://github.com/mingtaoli/fvm2dc.git
+```
+然后在~/projects/fvm2dc目录下可以看到三个目录，
+doc是文档目录
+fvm2dc是原始工作目录（开发写代码在此目录）
+fvm2d_ops是生成的ops代码目录。（用于集成开发环境编译调试）
+我们进入fvm2dc目录，使用如下命令
+```shell
+make trans
+```
+会在fvm2dc_ops下生成一些文件。
+
+使用eclipse打开project fvm2dc和fvm2dc_ops。
+
+由于使用的路径不同，我们可能还需要在eclipse中点中项目，使用project->properties->c++builder->settings修改linker下的Libraries中的search directory，使用project->properties->c++general->paths and symbols修改include dirctories。
+
+这样我们就可以在eclispe中fvm2dc下编辑代码，
+在shell中使用make trans生成fvm2dc_ops的文件。针对fvm2dc_ops使用eclipse的菜单进行编译、调试等等。
+
