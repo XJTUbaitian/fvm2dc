@@ -54,5 +54,6 @@ clean:
 	rm -f MPI_inline/*
 	rm -f MPI_OpenMP/*
 	rm -f OpenACC/*
+	rm -f OpenCL/*
 	rm -f Tiled/*
 	rm -rf ../fvm2dc_ops/*
