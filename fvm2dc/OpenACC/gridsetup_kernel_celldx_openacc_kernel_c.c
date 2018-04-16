@@ -16,7 +16,6 @@ int xdim1_gridsetup_kernel_celldx;
 
 // user function
 inline void gridsetup_kernel_celldx(double *celldx, double *cellx, int *idx) {
-
   celldx[OPS_ACC0(0, 0)] = cellx[OPS_ACC1(0, 0)] - cellx[OPS_ACC1(-1, 0)];
 }
 

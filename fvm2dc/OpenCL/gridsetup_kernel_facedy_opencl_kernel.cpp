@@ -102,7 +102,7 @@ void buildOpenCLKernels_gridsetup_kernel_facedy(int xdim0, int xdim1) {
     printf("compiling gridsetup_kernel_facedy -- done\n");
 
     // Create the OpenCL kernel
-    OPS_opencl_core.kernel[6] = clCreateKernel(
+    OPS_opencl_core.kernel[8] = clCreateKernel(
         OPS_opencl_core.program, "ops_gridsetup_kernel_facedy", &ret);
     clSafeCall(ret);
 
@@ -121,13 +121,13 @@ void ops_par_loop_gridsetup_kernel_facedy(char const *name, ops_block block,
   ops_arg args[3] = {arg0, arg1, arg2};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 3, range, 6))
+  if (!ops_checkpointing_before(args, 3, range, 8))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(6, "gridsetup_kernel_facedy");
-    OPS_kernels[6].count++;
+    ops_timing_realloc(8, "gridsetup_kernel_facedy");
+    OPS_kernels[8].count++;
     ops_timers_core(&c1, &t1);
   }
 
@@ -225,29 +225,29 @@ void ops_par_loop_gridsetup_kernel_facedy(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[6].mpi_time += t2 - t1;
+    OPS_kernels[8].mpi_time += t2 - t1;
   }
 
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 0, sizeof(cl_mem),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 0, sizeof(cl_mem),
                             (void *)&arg0.data_d));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 1, sizeof(cl_mem),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 1, sizeof(cl_mem),
                             (void *)&arg1.data_d));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 2, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 2, sizeof(cl_int),
                             (void *)&base0));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 3, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 3, sizeof(cl_int),
                             (void *)&base1));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 4, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 4, sizeof(cl_int),
                             (void *)&arg_idx[0]));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 5, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 5, sizeof(cl_int),
                             (void *)&arg_idx[1]));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 6, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 6, sizeof(cl_int),
                             (void *)&x_size));
-  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[6], 7, sizeof(cl_int),
+  clSafeCall(clSetKernelArg(OPS_opencl_core.kernel[8], 7, sizeof(cl_int),
                             (void *)&y_size));
 
   // call/enque opencl kernel wrapper function
   clSafeCall(clEnqueueNDRangeKernel(
-      OPS_opencl_core.command_queue, OPS_opencl_core.kernel[6], 3, NULL,
+      OPS_opencl_core.command_queue, OPS_opencl_core.kernel[8], 3, NULL,
       globalWorkSize, localWorkSize, 0, NULL, NULL));
   if (OPS_diags > 1) {
     clSafeCall(clFinish(OPS_opencl_core.command_queue));
@@ -255,7 +255,7 @@ void ops_par_loop_gridsetup_kernel_facedy(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[6].time += t1 - t2;
+    OPS_kernels[8].time += t1 - t2;
   }
 
   ops_set_dirtybit_device(args, 3);
@@ -264,8 +264,8 @@ void ops_par_loop_gridsetup_kernel_facedy(char const *name, ops_block block,
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c2, &t2);
-    OPS_kernels[6].mpi_time += t2 - t1;
-    OPS_kernels[6].transfer += ops_compute_transfer(dim, start, end, &arg0);
-    OPS_kernels[6].transfer += ops_compute_transfer(dim, start, end, &arg1);
+    OPS_kernels[8].mpi_time += t2 - t1;
+    OPS_kernels[8].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[8].transfer += ops_compute_transfer(dim, start, end, &arg1);
   }
 }

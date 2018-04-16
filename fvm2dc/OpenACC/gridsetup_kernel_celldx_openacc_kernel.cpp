@@ -31,13 +31,13 @@ void ops_par_loop_gridsetup_kernel_celldx(char const *name, ops_block block,
   ops_arg args[3] = {arg0, arg1, arg2};
 
 #ifdef CHECKPOINTING
-  if (!ops_checkpointing_before(args, 3, range, 3))
+  if (!ops_checkpointing_before(args, 3, range, 5))
     return;
 #endif
 
   if (OPS_diags > 1) {
-    ops_timing_realloc(3, "gridsetup_kernel_celldx");
-    OPS_kernels[3].count++;
+    ops_timing_realloc(5, "gridsetup_kernel_celldx");
+    OPS_kernels[5].count++;
     ops_timers_core(&c1, &t1);
   }
 
@@ -138,7 +138,7 @@ void ops_par_loop_gridsetup_kernel_celldx(char const *name, ops_block block,
 #endif
   if (OPS_diags > 1) {
     ops_timers_core(&c2, &t2);
-    OPS_kernels[3].mpi_time += t2 - t1;
+    OPS_kernels[5].mpi_time += t2 - t1;
   }
 
   gridsetup_kernel_celldx_c_wrapper(p_a0, p_a1, p_a2, arg_idx[0], arg_idx[1],
@@ -146,7 +146,7 @@ void ops_par_loop_gridsetup_kernel_celldx(char const *name, ops_block block,
 
   if (OPS_diags > 1) {
     ops_timers_core(&c1, &t1);
-    OPS_kernels[3].time += t1 - t2;
+    OPS_kernels[5].time += t1 - t2;
   }
 #ifdef OPS_GPU
   ops_set_dirtybit_device(args, 3);
@@ -158,8 +158,8 @@ void ops_par_loop_gridsetup_kernel_celldx(char const *name, ops_block block,
   if (OPS_diags > 1) {
     // Update kernel record
     ops_timers_core(&c2, &t2);
-    OPS_kernels[3].mpi_time += t2 - t1;
-    OPS_kernels[3].transfer += ops_compute_transfer(dim, start, end, &arg0);
-    OPS_kernels[3].transfer += ops_compute_transfer(dim, start, end, &arg1);
+    OPS_kernels[5].mpi_time += t2 - t1;
+    OPS_kernels[5].transfer += ops_compute_transfer(dim, start, end, &arg0);
+    OPS_kernels[5].transfer += ops_compute_transfer(dim, start, end, &arg1);
   }
 }

@@ -44,6 +44,82 @@
 
 #include "globalvars.h"
 
+void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
+		double *xdif_celldx, double *xcv_facedx, double *xcvs, double *xcvi,
+		double *xcvip, int *idx) {
+	double d_x;
+	d_x = (xmax - xmin) / (double) xcells; //xmax,xmin,xcells是ops常量，所以可以直接使用，xL1,xL2,xL3也是
+
+	if (idx[0] == 0) {
+		xu_facex[OPS_ACC0(0, 0)] = xmin;
+		x_cellx[OPS_ACC1(0, 0)] = xmin;
+		xdif_celldx[OPS_ACC2(0, 0)] = 0.0;
+		xcv_facedx[OPS_ACC3(0, 0)] = 0.0;
+		xcvs[OPS_ACC4(0, 0)] = 0.0;
+		xcvi[OPS_ACC5(0, 0)] = 0.0;
+		xcvip[OPS_ACC6(0, 0)] = 0.0;
+	} else if (idx[0] == 1) {
+		xu_facex[OPS_ACC0(0, 0)] = xmin;
+		x_cellx[OPS_ACC1(0, 0)] = xmin + d_x / 2.0;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x / 2.0;
+		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
+		xcvs[OPS_ACC4(0, 0)] = 0.0;
+		xcvi[OPS_ACC5(0, 0)] = 0.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x;
+	} else if (idx[0] == 2) {
+		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
+		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
+		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
+		xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
+		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
+
+	} else if (idx[0] == xL3 - 1) {
+		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
+		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
+		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
+		xcvs[OPS_ACC4(0, 0)] = d_x;
+		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
+
+	} else if (idx[0] == xL2 - 1) {
+		xu_facex[OPS_ACC0(0, 0)] = xmax - d_x;
+		x_cellx[OPS_ACC1(0, 0)] = xmax - d_x / 2.0;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
+		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
+		xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
+		xcvi[OPS_ACC5(0, 0)] = d_x;
+		xcvip[OPS_ACC6(0, 0)] = 0.0;
+	} else if (idx[0] == xL1 - 1) {
+		xu_facex[OPS_ACC0(0, 0)] = xmax;
+		x_cellx[OPS_ACC1(0, 0)] = xmax;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x / 2.0;
+		xcv_facedx[OPS_ACC3(0, 0)] = 0.0;
+		xcvs[OPS_ACC4(0, 0)] = 0.0;
+		xcvi[OPS_ACC5(0, 0)] = 0.0;
+		xcvip[OPS_ACC6(0, 0)] = 0.0;
+	} else {
+		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
+		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
+		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
+		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
+		xcvs[OPS_ACC4(0, 0)] = d_x;
+		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
+	}
+
+}
+
+void gridsetup_kernel_setupY(double *yv_facey, double *y_celly,
+		double *ydif_celldy, double *ycv_facedy, double *ycvs, double *ycvr,
+		double *ycvrs, int *idx) {
+	double d_y;
+	d_y = (ymax - ymin) / (double) ycells;
+
+}
+
 //XU的计算，这种写法是并行的写法
 
 void gridsetup_kernel_facex(double *facex, int *idx) {
@@ -74,14 +150,14 @@ void gridsetup_kernel_facey(double *val, int *idx) {
 	}
 }
 
-void gridsetup_kernel_cellx(double *cellx, double *facex, int *idx) {
-	cellx[OPS_ACC0(0, 0)] = (facex[OPS_ACC1(0, 0)] + facex[OPS_ACC1(1, 0)])
-					/ 2.0;
-}
+//void gridsetup_kernel_cellx(double *cellx, double *facex, int *idx) {
+//	cellx[OPS_ACC0(0, 0)] = (facex[OPS_ACC1(0, 0)] + facex[OPS_ACC1(1, 0)])
+//					/ 2.0;
+//}
 
-void gridsetup_kernel_celldx(double *celldx, double *cellx, int *idx) {
-	celldx[OPS_ACC0(0, 0)] = cellx[OPS_ACC1(0, 0)] - cellx[OPS_ACC1(-1, 0)];
-}
+//void gridsetup_kernel_celldx(double *celldx, double *cellx, int *idx) {
+//	celldx[OPS_ACC0(0, 0)] = cellx[OPS_ACC1(0, 0)] - cellx[OPS_ACC1(-1, 0)];
+//}
 
 void gridsetup_kernel_facedx(double *facedx, double *facex, int *idx) {
 	facedx[OPS_ACC0(0, 0)] = facex[OPS_ACC1(0, 0)] - facex[OPS_ACC1(-1, 0)];
@@ -117,5 +193,5 @@ void gridsetup_kernel_facedy(double *facedy, double *facey, int *idx) {
 
 }
 
-#endif
+#endif /* FVM2DC_GRIDSETUP_KERNEL_H_ */
 

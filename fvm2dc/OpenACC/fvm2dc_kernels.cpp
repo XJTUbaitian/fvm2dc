@@ -25,8 +25,16 @@ void ops_decl_const_char(int dim, char const *type, int size, char *dat,
     ycells = *(int *)dat;
   } else if (!strcmp(name, "xL1")) {
     xL1 = *(int *)dat;
+  } else if (!strcmp(name, "xL2")) {
+    xL2 = *(int *)dat;
+  } else if (!strcmp(name, "xL3")) {
+    xL3 = *(int *)dat;
   } else if (!strcmp(name, "yM1")) {
     yM1 = *(int *)dat;
+  } else if (!strcmp(name, "yM2")) {
+    yM2 = *(int *)dat;
+  } else if (!strcmp(name, "yM3")) {
+    yM3 = *(int *)dat;
   } else {
     printf("error: unknown const name\n");
     exit(1);

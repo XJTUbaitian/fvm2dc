@@ -19,7 +19,11 @@ extern double ymin;
 extern double ymax;
 extern int ycells;
 extern int xL1;
+extern int xL2;
+extern int xL3;
 extern int yM1;
+extern int yM2;
+extern int yM3;
 
 extern ops_opencl_core OPS_opencl_core;
 
@@ -30,8 +34,8 @@ void ops_decl_const_char(int dim, char const *type, int typeSize, char *dat,
                          char const *name) {
   cl_int ret = 0;
   if (OPS_opencl_core.constant == NULL) {
-    OPS_opencl_core.constant = (cl_mem *)malloc((8) * sizeof(cl_mem));
-    for (int i = 0; i < 8; i++) {
+    OPS_opencl_core.constant = (cl_mem *)malloc((12) * sizeof(cl_mem));
+    for (int i = 0; i < 12; i++) {
       OPS_opencl_core.constant[i] = NULL;
     }
   }
@@ -126,7 +130,7 @@ void ops_decl_const_char(int dim, char const *type, int typeSize, char *dat,
         dim * typeSize, (void *)dat, 0, NULL, NULL));
     clSafeCall(clFlush(OPS_opencl_core.command_queue));
     clSafeCall(clFinish(OPS_opencl_core.command_queue));
-  } else if (!strcmp(name, "yM1")) {
+  } else if (!strcmp(name, "xL2")) {
     if (OPS_opencl_core.constant[7] == NULL) {
       OPS_opencl_core.constant[7] =
           clCreateBuffer(OPS_opencl_core.context, CL_MEM_READ_ONLY,
@@ -136,6 +140,58 @@ void ops_decl_const_char(int dim, char const *type, int typeSize, char *dat,
     // Write the new constant to the memory of the device
     clSafeCall(clEnqueueWriteBuffer(
         OPS_opencl_core.command_queue, OPS_opencl_core.constant[7], CL_TRUE, 0,
+        dim * typeSize, (void *)dat, 0, NULL, NULL));
+    clSafeCall(clFlush(OPS_opencl_core.command_queue));
+    clSafeCall(clFinish(OPS_opencl_core.command_queue));
+  } else if (!strcmp(name, "xL3")) {
+    if (OPS_opencl_core.constant[8] == NULL) {
+      OPS_opencl_core.constant[8] =
+          clCreateBuffer(OPS_opencl_core.context, CL_MEM_READ_ONLY,
+                         dim * typeSize, NULL, &ret);
+      clSafeCall(ret);
+    }
+    // Write the new constant to the memory of the device
+    clSafeCall(clEnqueueWriteBuffer(
+        OPS_opencl_core.command_queue, OPS_opencl_core.constant[8], CL_TRUE, 0,
+        dim * typeSize, (void *)dat, 0, NULL, NULL));
+    clSafeCall(clFlush(OPS_opencl_core.command_queue));
+    clSafeCall(clFinish(OPS_opencl_core.command_queue));
+  } else if (!strcmp(name, "yM1")) {
+    if (OPS_opencl_core.constant[9] == NULL) {
+      OPS_opencl_core.constant[9] =
+          clCreateBuffer(OPS_opencl_core.context, CL_MEM_READ_ONLY,
+                         dim * typeSize, NULL, &ret);
+      clSafeCall(ret);
+    }
+    // Write the new constant to the memory of the device
+    clSafeCall(clEnqueueWriteBuffer(
+        OPS_opencl_core.command_queue, OPS_opencl_core.constant[9], CL_TRUE, 0,
+        dim * typeSize, (void *)dat, 0, NULL, NULL));
+    clSafeCall(clFlush(OPS_opencl_core.command_queue));
+    clSafeCall(clFinish(OPS_opencl_core.command_queue));
+  } else if (!strcmp(name, "yM2")) {
+    if (OPS_opencl_core.constant[10] == NULL) {
+      OPS_opencl_core.constant[10] =
+          clCreateBuffer(OPS_opencl_core.context, CL_MEM_READ_ONLY,
+                         dim * typeSize, NULL, &ret);
+      clSafeCall(ret);
+    }
+    // Write the new constant to the memory of the device
+    clSafeCall(clEnqueueWriteBuffer(
+        OPS_opencl_core.command_queue, OPS_opencl_core.constant[10], CL_TRUE, 0,
+        dim * typeSize, (void *)dat, 0, NULL, NULL));
+    clSafeCall(clFlush(OPS_opencl_core.command_queue));
+    clSafeCall(clFinish(OPS_opencl_core.command_queue));
+  } else if (!strcmp(name, "yM3")) {
+    if (OPS_opencl_core.constant[11] == NULL) {
+      OPS_opencl_core.constant[11] =
+          clCreateBuffer(OPS_opencl_core.context, CL_MEM_READ_ONLY,
+                         dim * typeSize, NULL, &ret);
+      clSafeCall(ret);
+    }
+    // Write the new constant to the memory of the device
+    clSafeCall(clEnqueueWriteBuffer(
+        OPS_opencl_core.command_queue, OPS_opencl_core.constant[11], CL_TRUE, 0,
         dim * typeSize, (void *)dat, 0, NULL, NULL));
     clSafeCall(clFlush(OPS_opencl_core.command_queue));
     clSafeCall(clFinish(OPS_opencl_core.command_queue));
@@ -153,18 +209,11 @@ void buildOpenCLKernels() {
   if (!isbuilt) {
     // clSafeCall( clUnloadCompiler() );
 
-    OPS_opencl_core.n_kernels = 8;
-    OPS_opencl_core.kernel = (cl_kernel *)malloc(8 * sizeof(cl_kernel));
+    OPS_opencl_core.n_kernels = 1;
+    OPS_opencl_core.kernel = (cl_kernel *)malloc(1 * sizeof(cl_kernel));
   }
   isbuilt = true;
 }
 
 // user kernel files
-#include "gridsetup_kernel_celldx_opencl_kernel.cpp"
-#include "gridsetup_kernel_celldy_opencl_kernel.cpp"
-#include "gridsetup_kernel_cellx_opencl_kernel.cpp"
-#include "gridsetup_kernel_celly_opencl_kernel.cpp"
-#include "gridsetup_kernel_facedx_opencl_kernel.cpp"
-#include "gridsetup_kernel_facedy_opencl_kernel.cpp"
-#include "gridsetup_kernel_facex_opencl_kernel.cpp"
-#include "gridsetup_kernel_facey_opencl_kernel.cpp"
+#include "gridsetup_kernel_setupX_opencl_kernel.cpp"

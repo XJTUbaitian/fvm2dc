@@ -51,7 +51,6 @@ void gridsetup_kernel_cellx(__global double *restrict cellx,
                             __global double *restrict facex, int *restrict idx)
 
 {
-
   cellx[OPS_ACC0(0, 0)] = (facex[OPS_ACC1(0, 0)] + facex[OPS_ACC1(1, 0)]) / 2.0;
 }
 

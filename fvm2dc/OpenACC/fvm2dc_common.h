@@ -19,4 +19,8 @@ extern double ymin;
 extern double ymax;
 extern int ycells;
 extern int xL1;
+extern int xL2;
+extern int xL3;
 extern int yM1;
+extern int yM2;
+extern int yM3;

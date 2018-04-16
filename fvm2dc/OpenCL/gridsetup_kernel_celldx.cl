@@ -51,7 +51,6 @@ void gridsetup_kernel_celldx(__global double *restrict celldx,
                              __global double *restrict cellx, int *restrict idx)
 
 {
-
   celldx[OPS_ACC0(0, 0)] = cellx[OPS_ACC1(0, 0)] - cellx[OPS_ACC1(-1, 0)];
 }
 

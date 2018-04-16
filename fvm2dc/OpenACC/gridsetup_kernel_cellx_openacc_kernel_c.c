@@ -16,7 +16,6 @@ int xdim1_gridsetup_kernel_cellx;
 
 // user function
 inline void gridsetup_kernel_cellx(double *cellx, double *facex, int *idx) {
-
   cellx[OPS_ACC0(0, 0)] = (facex[OPS_ACC1(0, 0)] + facex[OPS_ACC1(1, 0)]) / 2.0;
 }
 

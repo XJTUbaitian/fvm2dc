@@ -16,7 +16,6 @@ int xdim1_gridsetup_kernel_facedx;
 
 // user function
 inline void gridsetup_kernel_facedx(double *facedx, double *facex, int *idx) {
-
   facedx[OPS_ACC0(0, 0)] = facex[OPS_ACC1(0, 0)] - facex[OPS_ACC1(-1, 0)];
 }
 
