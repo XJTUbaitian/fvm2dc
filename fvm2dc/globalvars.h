@@ -70,91 +70,91 @@
 
 using namespace std;
 
-extern string title[NFX4]; //原来的变量title，不同变量的标题
-extern int lsolve[NFX4]; //原来的变量lsolve，控制该变量是否要求解
-extern int lprint[NFX4]; //原来的变量lprint，控制该变量是否打印
-extern int lblk[NFX4]; //原来的变量lblk，控制该变量是否采用块修正技术
-extern int lstop; //原来的变量lstop，全局控制是否停止程序
+extern string title[NFX4]; //simper95.for变量title，不同变量的标题
+extern int lsolve[NFX4]; //simper95.for变量lsolve，控制该变量是否要求解
+extern int lprint[NFX4]; //simper95.for变量lprint，控制该变量是否打印
+extern int lblk[NFX4]; //simper95.for变量lblk，控制该变量是否采用块修正技术
+extern int lstop; //simper95.for变量lstop，全局控制是否停止程序
 
 //ops block
 extern ops_block fvm2dc_grid; //grid,网格，
 
 //ops dats
-extern ops_dat facex; // 原来的变量xu
-extern ops_dat facey; // 原来的变量yv
-extern ops_dat cellx; // 原来的变量x
-extern ops_dat celly; // 原来的变量y
-extern ops_dat celldx; // 原来的变量xdif
-extern ops_dat celldy; // 原来的变量ydif
-extern ops_dat facedx; // 原来的变量xcv
-extern ops_dat facedy; // 原来的变量ycv
-extern ops_dat xcvs; // 原来的变量xcvs
-extern ops_dat ycvs; // 原来的变量ycvs
-extern ops_dat xcvi; // 原来的变量xcvi
-extern ops_dat xcvip; // 原来的变量xcvip
-extern ops_dat ycvr; // 原来的变量ycvr
-extern ops_dat ycvrs; // 原来的变量ycvrs
+extern ops_dat xu_facex; // simper95.for变量xu
+extern ops_dat yv_facey; // simper95.for变量yv
+extern ops_dat x_cellx; // simper95.for变量x
+extern ops_dat y_celly; // simper95.for变量y
+extern ops_dat xdif_celldx; // simper95.for变量xdif
+extern ops_dat ydif_celldy; // simper95.for变量ydif
+extern ops_dat xcv_facedx; // simper95.for变量xcv
+extern ops_dat ycv_facedy; // simper95.for变量ycv
+extern ops_dat xcvs; // simper95.for变量xcvs
+extern ops_dat ycvs; // simper95.for变量ycvs
+extern ops_dat xcvi; // simper95.for变量xcvi
+extern ops_dat xcvip; // simper95.for变量xcvip
+extern ops_dat ycvr; // simper95.for变量ycvr
+extern ops_dat ycvrs; // simper95.for变量ycvrs
 
-extern ops_dat arx; //原来的变量arx
-extern ops_dat arxj; //原来的变量arxj
-extern ops_dat arxjp; //原来的变量arxjp
+extern ops_dat arx; //simper95.for变量arx
+extern ops_dat arxj; //simper95.for变量arxj
+extern ops_dat arxjp; //simper95.for变量arxjp
 
-extern ops_dat radius; //原来的变量r
-extern ops_dat rmn; //原来的变量rmn
+extern ops_dat radius; //simper95.for变量r
+extern ops_dat rmn; //simper95.for变量rmn
 
-extern ops_dat sx; //原来的变量sx
-extern ops_dat sxmn; //原来的变量sxmn
+extern ops_dat sx; //simper95.for变量sx
+extern ops_dat sxmn; //simper95.for变量sxmn
 
-extern ops_dat fv; //原来的变量fv
-extern ops_dat fvp; //原来的变量fvp
-extern ops_dat fx; //原来的变量fx
-extern ops_dat fxm; //原来的变量fxm
-extern ops_dat fy; //原来的变量fy
-extern ops_dat fym; //原来的变量fym
-extern ops_dat pt; //原来的变量pt
-extern ops_dat qt; //原来的变量qt
+extern ops_dat fv; //simper95.for变量fv
+extern ops_dat fvp; //simper95.for变量fvp
+extern ops_dat fx; //simper95.for变量fx
+extern ops_dat fxm; //simper95.for变量fxm
+extern ops_dat fy; //simper95.for变量fy
+extern ops_dat fym; //simper95.for变量fym
+extern ops_dat pt; //simper95.for变量pt
+extern ops_dat qt; //simper95.for变量qt
 
-extern ops_dat xvel0; // 原来的变量U
-extern ops_dat yvel0; // 原来的变量V
-extern ops_dat presscorr; // 原来的变量PC
-extern ops_dat temperature; // 原来的变量T
-extern ops_dat deltaxvel0; // 原来的变量dU
-extern ops_dat deltayvel0; // 原来的变量dV
-extern ops_dat xvelhat; // 原来的变量UHAT
-extern ops_dat yvelhat; // 原来的变量VHAT
+extern ops_dat u_xvel0; // simper95.for变量U
+extern ops_dat v_yvel0; // simper95.for变量V
+extern ops_dat pc_presscorr; // simper95.for变量PC
+extern ops_dat t_temperature; // simper95.for变量T
+extern ops_dat du_deltaxvel0; // simper95.for变量dU
+extern ops_dat dv_deltayvel0; // simper95.for变量dV
+extern ops_dat uhat_xvelhat; // simper95.for变量UHAT
+extern ops_dat vhat_yvelhat; // simper95.for变量VHAT
 
-extern ops_dat pressure; // 原来的变量P
-extern ops_dat density; // 原来的变量RHO
-extern ops_dat gam; // 原来的变量GAM
-extern ops_dat cp; // 原来的变量cp
+extern ops_dat pressure; // simper95.for变量P
+extern ops_dat density; // simper95.for变量RHO
+extern ops_dat gam; // simper95.for变量GAM
+extern ops_dat cp; // simper95.for变量cp
 
-extern ops_dat con; // 原来的变量con,cof1
-extern ops_dat aip; // 原来的变量aip,cof2
-extern ops_dat aim; // 原来的变量aim,cof3
-extern ops_dat ajp; // 原来的变量ajp,cof4
-extern ops_dat ajm; // 原来的变量ajm,cof5
-extern ops_dat app; // 原来的变量ap,cof6
+extern ops_dat con; // simper95.for变量con,cof1
+extern ops_dat aip; // simper95.for变量aip,cof2
+extern ops_dat aim; // simper95.for变量aim,cof3
+extern ops_dat ajp; // simper95.for变量ajp,cof4
+extern ops_dat ajm; // simper95.for变量ajm,cof5
+extern ops_dat app; // simper95.for变量ap,cof6
 
-extern ops_dat ucon; // 原来的变量ucon,cofu1
-extern ops_dat uaip; // 原来的变量uaip,cofu2
-extern ops_dat uaim; // 原来的变量uaim,cofu3
-extern ops_dat uajp; // 原来的变量uajp,cofu4
-extern ops_dat uajm; // 原来的变量uajm,cofu5
-extern ops_dat uapp; // 原来的变量uap,cofu6
+extern ops_dat ucon; // simper95.for变量ucon,cofu1
+extern ops_dat uaip; // simper95.for变量uaip,cofu2
+extern ops_dat uaim; // simper95.for变量uaim,cofu3
+extern ops_dat uajp; // simper95.for变量uajp,cofu4
+extern ops_dat uajm; // simper95.for变量uajm,cofu5
+extern ops_dat uapp; // simper95.for变量uap,cofu6
 
-extern ops_dat vcon; // 原来的变量vcon,cofv1
-extern ops_dat vaip; // 原来的变量vaip,cofv2
-extern ops_dat vaim; // 原来的变量vaim,cofv3
-extern ops_dat vajp; // 原来的变量vajp,cofv4
-extern ops_dat vajm; // 原来的变量vajm,cofv5
-extern ops_dat vapp; // 原来的变量vap,cofv6
+extern ops_dat vcon; // simper95.for变量vcon,cofv1
+extern ops_dat vaip; // simper95.for变量vaip,cofv2
+extern ops_dat vaim; // simper95.for变量vaim,cofv3
+extern ops_dat vajp; // simper95.for变量vajp,cofv4
+extern ops_dat vajm; // simper95.for变量vajm,cofv5
+extern ops_dat vapp; // simper95.for变量vap,cofv6
 
-extern ops_dat pcon; // 原来的变量pcon,cof1
-extern ops_dat paip; // 原来的变量paip,cof2
-extern ops_dat paim; // 原来的变量paim,cof3
-extern ops_dat pajp; // 原来的变量pajp,cof4
-extern ops_dat pajm; // 原来的变量pajm,cof5
-extern ops_dat papp; // 原来的变量pap,cof6
+extern ops_dat pcon; // simper95.for变量pcon,cof1
+extern ops_dat paip; // simper95.for变量paip,cof2
+extern ops_dat paim; // simper95.for变量paim,cof3
+extern ops_dat pajp; // simper95.for变量pajp,cof4
+extern ops_dat pajm; // simper95.for变量pajm,cof5
+extern ops_dat papp; // simper95.for变量pap,cof6
 
 //commonly used stencils
 extern ops_stencil S2D_00; // 00
@@ -174,41 +174,41 @@ extern double ymax;
 extern int xcells;
 extern int ycells;
 
-extern double xlength; //原来的变量xl
-extern double ylength; //原来的变量yl
+extern double xlength; //simper95.for变量xl
+extern double ylength; //simper95.for变量yl
 
-extern double relax[NFX4]; //原来的变量relax，松弛因子
-extern double ttime; //原来的变量time
-extern double dt; //原来的变量dt
-extern double rhocon; //原来的变量rhocon
-extern double cpcon; //原来的变量cpcon
+extern double relax[NFX4]; //simper95.for变量relax，松弛因子
+extern double ttime; //simper95.for变量time
+extern double dt; //simper95.for变量dt
+extern double rhocon; //simper95.for变量rhocon
+extern double cpcon; //simper95.for变量cpcon
 
-extern int xL1; //原来的变量L1
-extern int xL2; //原来的变量L2
-extern int xL3; //原来的变量L3
-extern int yM1; //原来的变量M1
-extern int yM2; //原来的变量M2
-extern int yM3; //原来的变量M3
-extern int iter; //原来的变量iter
+extern int xL1; //simper95.for变量L1
+extern int xL2; //simper95.for变量L2
+extern int xL3; //simper95.for变量L3
+extern int yM1; //simper95.for变量M1
+extern int yM2; //simper95.for变量M2
+extern int yM3; //simper95.for变量M3
+extern int iter; //simper95.for变量iter
 
-extern double smax; //原来的变量smax
-extern double ssum; //原来的变量ssum
-extern double flow; //原来的变量flow
-extern double diff; //原来的变量diff
-extern double acof; //原来的变量acof
+extern double smax; //simper95.for变量smax
+extern double ssum; //simper95.for变量ssum
+extern double flow; //simper95.for变量flow
+extern double diff; //simper95.for变量diff
+extern double acof; //simper95.for变量acof
 
-extern int nf; //原来的变量nf
-extern int np; //原来的变量np
-extern int nrho; //原来的变量nrho
-extern int ngam; //原来的变量ngam
-extern int ncp; //原来的变量ncp
-extern int istart; //原来的变量istart
-extern int jstart; //原来的变量jstart
-extern int last; //原来的变量last
-extern int ntimes[NFX4]; //原来的变量ntimes
-extern int ipref; //原来的变量ipref
-extern int jpref; //原来的变量jpref
+extern int nf; //simper95.for变量nf
+extern int np; //simper95.for变量np
+extern int nrho; //simper95.for变量nrho
+extern int ngam; //simper95.for变量ngam
+extern int ncp; //simper95.for变量ncp
+extern int istart; //simper95.for变量istart
+extern int jstart; //simper95.for变量jstart
+extern int last; //simper95.for变量last
+extern int ntimes[NFX4]; //simper95.for变量ntimes
+extern int ipref; //simper95.for变量ipref
+extern int jpref; //simper95.for变量jpref
 
-extern int coordmode; //原来的变量mode
+extern int coordmode; //simper95.for变量mode
 
 #endif /* FVM2DC_GLOBALVARS_H_ */

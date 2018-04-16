@@ -13,15 +13,15 @@
  modification, are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+ list of conditions and the following disclaimer.
 
  * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
  * Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from
+ this software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY Mingtao Li "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -37,7 +37,7 @@
 
  @author Mingtao Li
  mingtao.li@gmail.com
-*/
+ */
 
 /*
  * initialize.cpp
@@ -45,7 +45,6 @@
  *  Created on: Apr 2, 2018
  *      Author: Mintao Li
  */
-
 
 // standard headers
 #include <stdlib.h>
@@ -63,7 +62,7 @@ void initialize()
 
 {
 
-	fvm2dc_grid = ops_decl_block(2, "fvm2d_grid");
+	fvm2dc_grid = ops_decl_block(2, "fvm2dc_grid");
 
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
@@ -71,71 +70,71 @@ void initialize()
 	int size[2] = { xL1 + 1, yM1 + 1 };
 	double *temp = NULL;
 
-	//XU
-	size[0] = xL1 + 1;
+	size[0] = xL1;
 	size[1] = 1;
-	facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facex");
+
+	//XU
+	xu_facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "xu_facex");
+	//X
+	x_cellx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"x_cellx");
+	//XDIF
+	xdif_celldx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "xdif_celldx");
+	//XCV
+	xcv_facedx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "xcv_facedx");
+	//xcvs
+	xcvs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xcvs");
+	//xcvi
+	xcvi = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xcvi");
+	//xcvip
+	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xcvip");
 
 	//YV
 	size[0] = 1;
 	size[1] = yM1 + 1;
-	facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facey");
-	//X
-	size[0] = xL1;
-	size[1] = 1;
-	cellx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"cellx");
+	yv_facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "yv_facey");
 
 	//Y
 	size[0] = 1;
 	size[1] = yM1;
-	celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"celly");
-
-	//XDIF
-	size[0] = xL1;
-	size[1] = 1;
-	celldx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"celldx");
+	y_celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"y_celly");
 
 	//YDIF
 	size[0] = 1;
 	size[1] = yM1;
-	celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"celldy");
-
-	//XCV
-	size[0] = xL1;
-	size[1] = 1;
-	facedx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"facedx");
-	xcvi = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"xcvi");
-	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"xcvip");
+	ydif_celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "ydif_celldy");
 
 	//YCV
 	size[0] = 1;
 	size[1] = yM1;
-	facedy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"facedy");
+	ycv_facedy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "ycv_facedy");
 
 	size[0] = xL1;
 	size[1] = yM1;
-	xvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"xvel0");
-	yvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"yvel0");
-	presscorr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "presscorr");
+	u_xvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"u_xvel0");
+	v_yvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"v_yvel0");
+	pc_presscorr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "pc_presscorr");
 	density = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"density");
-	temperature = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "temperature");
-	xvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"xvelhat");
-	yvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"yvelhat");
+	t_temperature = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "t_temperature");
+	uhat_xvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "uhat_xvelhat");
+	vhat_yvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "vhat_yvelhat");
 
 	ops_decl_const("xmin", 1, "double", &xmin);
 	ops_decl_const("xmax", 1, "double", &xmax);
@@ -144,7 +143,11 @@ void initialize()
 	ops_decl_const("ymax", 1, "double", &ymax);
 	ops_decl_const("ycells", 1, "int", &ycells);
 	ops_decl_const("xL1", 1, "int", &xL1);
+	ops_decl_const("xL2", 1, "int", &xL2);
+	ops_decl_const("xL3", 1, "int", &xL3);
 	ops_decl_const("yM1", 1, "int", &yM1);
+	ops_decl_const("yM2", 1, "int", &yM2);
+	ops_decl_const("yM3", 1, "int", &yM3);
 
 	ops_diagnostic_output();
 

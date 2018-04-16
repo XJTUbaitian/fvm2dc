@@ -49,7 +49,11 @@ fvm2dc_seq: Makefile fvm2dc.cpp $(OPS_INSTALL_PATH)/c/lib/libops_seq.a
 
 clean:
 	rm -f fvm2dc_seq globalvars_ops.cpp initialize_ops.cpp gridsetup_ops.cpp buildinitialfield_ops.cpp fvm2dc_ops.cpp *.o result.txt facex.dat facey.dat cellx.dat celly.dat
-	rm -f MPI/*
-	rm -f MPI_OpenMP/*
 	rm -f CUDA/*
+	rm -f MPI/*
+	rm -f MPI_inline/*
+	rm -f MPI_OpenMP/*
+	rm -f OpenACC/*
+	rm -f OpenCL/*
+	rm -f Tiled/*
 	rm -rf ../fvm2dc_ops/*
