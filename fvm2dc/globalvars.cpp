@@ -122,11 +122,12 @@ double xmin;
 double ymin;
 double xmax;
 double ymax;
+int xcells;
+int ycells;
 double xlength; //原来的变量xl
 double ylength; //原来的变量yl
 
-int xcells;
-int ycells;
+
 int xL1; //原来的变量L1
 int xL2; //原来的变量L2
 int xL3; //原来的变量L3
@@ -141,10 +142,5 @@ double flow; //原来的变量flow
 double diff; //原来的变量diff
 double acof; //原来的变量acof
 
+
 int coordmode; //原来的变量mode
-
-
-
-
-
-int coordmode=1;
