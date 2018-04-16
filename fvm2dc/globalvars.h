@@ -140,9 +140,6 @@ extern ops_stencil S2D_00_P10_M10_0P1_0M1; //00:10:-10:01:0-1
 
 extern FILE *fp;
 
-//extern string title();
-//extern bool lsolve(),lprint(),lblk(),lstop;
-
 extern double xmin;
 extern double ymin;
 extern double xmax;
