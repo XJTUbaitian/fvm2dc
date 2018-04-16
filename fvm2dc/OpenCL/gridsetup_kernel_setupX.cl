@@ -47,6 +47,8 @@
 #undef OPS_ACC4
 #undef OPS_ACC5
 #undef OPS_ACC6
+#undef OPS_ACC7
+#undef OPS_ACC8
 
 #define OPS_ACC0(x, y) (x + xdim0_gridsetup_kernel_setupX * (y))
 #define OPS_ACC1(x, y) (x + xdim1_gridsetup_kernel_setupX * (y))
@@ -55,13 +57,16 @@
 #define OPS_ACC4(x, y) (x + xdim4_gridsetup_kernel_setupX * (y))
 #define OPS_ACC5(x, y) (x + xdim5_gridsetup_kernel_setupX * (y))
 #define OPS_ACC6(x, y) (x + xdim6_gridsetup_kernel_setupX * (y))
+#define OPS_ACC7(x, y) (x + xdim7_gridsetup_kernel_setupX * (y))
+#define OPS_ACC8(x, y) (x + xdim8_gridsetup_kernel_setupX * (y))
 
 // user function
 void gridsetup_kernel_setupX(
     __global double *restrict xu_facex, __global double *restrict x_cellx,
     __global double *restrict xdif_celldx, __global double *restrict xcv_facedx,
     __global double *restrict xcvs, __global double *restrict xcvi,
-    __global double *restrict xcvip, int *restrict idx, const double xmin,
+    __global double *restrict xcvip, __global double *restrict fx,
+    __global double *restrict fxm, int *restrict idx, const double xmin,
     const double xmax, const int xcells, const int xL1, const int xL2,
     const int xL3)
 
@@ -77,6 +82,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = 0.0;
     xcvi[OPS_ACC5(0, 0)] = 0.0;
     xcvip[OPS_ACC6(0, 0)] = 0.0;
+    fx[OPS_ACC7(0, 0)] = 0.0;
+    fxm[OPS_ACC8(0, 0)] = 0.0;
   } else if (idx[0] == 1) {
     xu_facex[OPS_ACC0(0, 0)] = xmin;
     x_cellx[OPS_ACC1(0, 0)] = xmin + d_x / 2.0;
@@ -85,6 +92,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = 0.0;
     xcvi[OPS_ACC5(0, 0)] = 0.0;
     xcvip[OPS_ACC6(0, 0)] = d_x;
+    fx[OPS_ACC7(0, 0)] = 0.0;
+    fxm[OPS_ACC8(0, 0)] = 1.0;
   } else if (idx[0] == 2) {
     xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
     x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
@@ -93,6 +102,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
     xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
     xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
+    fx[OPS_ACC7(0, 0)] = 0.5;
+    fxm[OPS_ACC8(0, 0)] = 0.5;
   } else if (idx[0] == xL3 - 1) {
     xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
     x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
@@ -101,6 +112,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = d_x;
     xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
     xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
+    fx[OPS_ACC7(0, 0)] = 0.5;
+    fxm[OPS_ACC8(0, 0)] = 0.5;
   } else if (idx[0] == xL2 - 1) {
     xu_facex[OPS_ACC0(0, 0)] = xmax - d_x;
     x_cellx[OPS_ACC1(0, 0)] = xmax - d_x / 2.0;
@@ -109,6 +122,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
     xcvi[OPS_ACC5(0, 0)] = d_x;
     xcvip[OPS_ACC6(0, 0)] = 0.0;
+    fx[OPS_ACC7(0, 0)] = 0.5;
+    fxm[OPS_ACC8(0, 0)] = 0.5;
   } else if (idx[0] == xL1 - 1) {
     xu_facex[OPS_ACC0(0, 0)] = xmax;
     x_cellx[OPS_ACC1(0, 0)] = xmax;
@@ -117,6 +132,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = 0.0;
     xcvi[OPS_ACC5(0, 0)] = 0.0;
     xcvip[OPS_ACC6(0, 0)] = 0.0;
+    fx[OPS_ACC7(0, 0)] = 1.0;
+    fxm[OPS_ACC8(0, 0)] = 0.0;
   } else {
     xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
     x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
@@ -125,6 +142,8 @@ void gridsetup_kernel_setupX(
     xcvs[OPS_ACC4(0, 0)] = d_x;
     xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
     xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
+    fx[OPS_ACC7(0, 0)] = 0.5;
+    fxm[OPS_ACC8(0, 0)] = 0.5;
   }
 }
 
@@ -132,11 +151,13 @@ __kernel void ops_gridsetup_kernel_setupX(
     __global double *restrict arg0, __global double *restrict arg1,
     __global double *restrict arg2, __global double *restrict arg3,
     __global double *restrict arg4, __global double *restrict arg5,
-    __global double *restrict arg6, const double xmin, const double xmax,
+    __global double *restrict arg6, __global double *restrict arg7,
+    __global double *restrict arg8, const double xmin, const double xmax,
     const int xcells, const int xL1, const int xL2, const int xL3,
     const int base0, const int base1, const int base2, const int base3,
-    const int base4, const int base5, const int base6, int arg_idx0,
-    int arg_idx1, const int size0, const int size1) {
+    const int base4, const int base5, const int base6, const int base7,
+    const int base8, int arg_idx0, int arg_idx1, const int size0,
+    const int size1) {
 
   int idx_y = get_global_id(1);
   int idx_x = get_global_id(0);
@@ -160,6 +181,10 @@ __kernel void ops_gridsetup_kernel_setupX(
               idx_y * 1 * 1 * xdim5_gridsetup_kernel_setupX],
         &arg6[base6 + idx_x * 1 * 1 +
               idx_y * 1 * 1 * xdim6_gridsetup_kernel_setupX],
+        &arg7[base7 + idx_x * 1 * 1 +
+              idx_y * 1 * 1 * xdim7_gridsetup_kernel_setupX],
+        &arg8[base8 + idx_x * 1 * 1 +
+              idx_y * 1 * 1 * xdim8_gridsetup_kernel_setupX],
         arg_idx, xmin, xmax, xcells, xL1, xL2, xL3);
   }
 }

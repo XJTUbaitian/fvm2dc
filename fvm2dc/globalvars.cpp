@@ -84,6 +84,16 @@ ops_dat rmn; //simper95.for变量rmn
 ops_dat sx; //simper95.for变量sx
 ops_dat sxmn; //simper95.for变量sxmn
 
+
+ops_dat fv; //simper95.for变量fv
+ops_dat fvp; //simper95.for变量fvp
+ops_dat fx; //simper95.for变量fx
+ops_dat fxm; //simper95.for变量fxm
+ops_dat fy; //simper95.for变量fy
+ops_dat fym; //simper95.for变量fym
+ops_dat pt; //simper95.for变量pt
+ops_dat qt; //simper95.for变量qt
+
 ops_dat u_xvel0; // simper95.for变量U
 ops_dat v_yvel0; // simper95.for变量V
 ops_dat pc_presscorr; // simper95.for变量PC

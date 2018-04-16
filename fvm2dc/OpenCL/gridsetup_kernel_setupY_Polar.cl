@@ -52,20 +52,20 @@
 #undef OPS_ACC9
 #undef OPS_ACC10
 
-#define OPS_ACC0(x, y) (x + xdim0_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC1(x, y) (x + xdim1_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC2(x, y) (x + xdim2_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC3(x, y) (x + xdim3_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC4(x, y) (x + xdim4_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC5(x, y) (x + xdim5_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC6(x, y) (x + xdim6_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC7(x, y) (x + xdim7_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC8(x, y) (x + xdim8_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC9(x, y) (x + xdim9_gridsetup_kernel_setupY_Cartesian * (y))
-#define OPS_ACC10(x, y) (x + xdim10_gridsetup_kernel_setupY_Cartesian * (y))
+#define OPS_ACC0(x, y) (x + xdim0_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC1(x, y) (x + xdim1_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC2(x, y) (x + xdim2_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC3(x, y) (x + xdim3_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC4(x, y) (x + xdim4_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC5(x, y) (x + xdim5_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC6(x, y) (x + xdim6_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC7(x, y) (x + xdim7_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC8(x, y) (x + xdim8_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC9(x, y) (x + xdim9_gridsetup_kernel_setupY_Polar * (y))
+#define OPS_ACC10(x, y) (x + xdim10_gridsetup_kernel_setupY_Polar * (y))
 
 // user function
-void gridsetup_kernel_setupY_Cartesian(
+void gridsetup_kernel_setupY_Polar(
     __global double *restrict radius, __global double *restrict sx,
     __global double *restrict rmn, __global double *restrict sxmn,
     __global double *restrict ycvr, __global double *restrict ycvrs,
@@ -168,7 +168,7 @@ void gridsetup_kernel_setupY_Cartesian(
   }
 }
 
-__kernel void ops_gridsetup_kernel_setupY_Cartesian(
+__kernel void ops_gridsetup_kernel_setupY_Polar(
     __global double *restrict arg0, __global double *restrict arg1,
     __global double *restrict arg2, __global double *restrict arg3,
     __global double *restrict arg4, __global double *restrict arg5,
@@ -188,29 +188,29 @@ __kernel void ops_gridsetup_kernel_setupY_Cartesian(
   arg_idx[0] = arg_idx0 + idx_x;
   arg_idx[1] = arg_idx1 + idx_y;
   if (idx_x < size0 && idx_y < size1) {
-    gridsetup_kernel_setupY_Cartesian(
+    gridsetup_kernel_setupY_Polar(
         &arg0[base0 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim0_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim0_gridsetup_kernel_setupY_Polar],
         &arg1[base1 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim1_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim1_gridsetup_kernel_setupY_Polar],
         &arg2[base2 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim2_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim2_gridsetup_kernel_setupY_Polar],
         &arg3[base3 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim3_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim3_gridsetup_kernel_setupY_Polar],
         &arg4[base4 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim4_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim4_gridsetup_kernel_setupY_Polar],
         &arg5[base5 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim5_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim5_gridsetup_kernel_setupY_Polar],
         &arg6[base6 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim6_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim6_gridsetup_kernel_setupY_Polar],
         &arg7[base7 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim7_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim7_gridsetup_kernel_setupY_Polar],
         &arg8[base8 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim8_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim8_gridsetup_kernel_setupY_Polar],
         &arg9[base9 + idx_x * 1 * 1 +
-              idx_y * 1 * 1 * xdim9_gridsetup_kernel_setupY_Cartesian],
+              idx_y * 1 * 1 * xdim9_gridsetup_kernel_setupY_Polar],
         &arg10[base10 + idx_x * 1 * 1 +
-               idx_y * 1 * 1 * xdim10_gridsetup_kernel_setupY_Cartesian],
+               idx_y * 1 * 1 * xdim10_gridsetup_kernel_setupY_Polar],
         arg_idx, ymin, ymax, ycells, yM1, yM2, yM3);
   }
 }

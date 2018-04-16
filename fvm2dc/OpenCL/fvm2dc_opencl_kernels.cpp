@@ -209,8 +209,8 @@ void buildOpenCLKernels() {
   if (!isbuilt) {
     // clSafeCall( clUnloadCompiler() );
 
-    OPS_opencl_core.n_kernels = 2;
-    OPS_opencl_core.kernel = (cl_kernel *)malloc(2 * sizeof(cl_kernel));
+    OPS_opencl_core.n_kernels = 5;
+    OPS_opencl_core.kernel = (cl_kernel *)malloc(5 * sizeof(cl_kernel));
   }
   isbuilt = true;
 }
@@ -218,3 +218,6 @@ void buildOpenCLKernels() {
 // user kernel files
 #include "gridsetup_kernel_setupX_opencl_kernel.cpp"
 #include "gridsetup_kernel_setupY_Cartesian_opencl_kernel.cpp"
+#include "gridsetup_kernel_setupY_Common_opencl_kernel.cpp"
+#include "gridsetup_kernel_setupY_Cylindrical_opencl_kernel.cpp"
+#include "gridsetup_kernel_setupY_Polar_opencl_kernel.cpp"

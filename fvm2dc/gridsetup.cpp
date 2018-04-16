@@ -85,7 +85,9 @@ void gridsetup() {
 			ops_arg_dat(xcv_facedx, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(xcvi, 1, S2D_00, "double", OPS_WRITE),
-			ops_arg_dat(xcvip, 1, S2D_00, "double", OPS_WRITE), ops_arg_idx());
+			ops_arg_dat(xcvip, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(fx, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(fxm, 1, S2D_00, "double", OPS_WRITE), ops_arg_idx());
 
 	ops_print_dat_to_txtfile(xu_facex, "xu_facex.dat");
 	ops_print_dat_to_txtfile(x_cellx, "x_cellx.dat");
@@ -94,329 +96,99 @@ void gridsetup() {
 	ops_print_dat_to_txtfile(xcvs, "xcvs.dat");
 	ops_print_dat_to_txtfile(xcvi, "xcvi.dat");
 	ops_print_dat_to_txtfile(xcvip, "xcvip.dat");
+	ops_print_dat_to_txtfile(fx, "fx.dat");
+	ops_print_dat_to_txtfile(fxm, "fxm.dat");
+
 	//
-	//	//用一个kernel把所有的Y方向网格变量都设置好
+	//用两个kernel把所有的Y方向网格变量都设置好
 	iter_range[0] = 0;
 	iter_range[1] = 1;
 	iter_range[2] = 0;
 	iter_range[3] = yM1;
+
+	ops_par_loop(gridsetup_kernel_setupY_Common,
+			"gridsetup_kernel_setupY_Common", fvm2dc_grid, 2, iter_range,
+			ops_arg_dat(yv_facey, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(ycv_facedy, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(ycvs, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(fy, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(fym, 1, S2D_00, "double", OPS_WRITE), ops_arg_idx());
+
+	ops_print_dat_to_txtfile(yv_facey, "yv_facey.dat");
+	ops_print_dat_to_txtfile(y_celly, "y_celly.dat");
+	ops_print_dat_to_txtfile(ydif_celldy, "ydif_celldy.dat");
+	ops_print_dat_to_txtfile(ycv_facedy, "ycv_facedy.dat");
+	ops_print_dat_to_txtfile(ycvs, "ycvs.dat");
+	ops_print_dat_to_txtfile(fy, "fy.dat");
+	ops_print_dat_to_txtfile(fym, "fym.dat");
+
 	if (coordmode == 0) {
 		ops_par_loop(gridsetup_kernel_setupY_Cartesian,
 				"gridsetup_kernel_setupY_Cartesian", fvm2dc_grid, 2, iter_range,
-				ops_arg_dat(yv_facey, 1, S2D_00, "double", OPS_WRITE),
-				ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
-				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-				ops_arg_dat(ycv_facedy, 1, S2D_00, "double", OPS_WRITE),
-				ops_arg_dat(ycvs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(radius, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(rmn, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sxmn, 1, S2D_00, "double", OPS_WRITE),
 				ops_arg_dat(ycvr, 1, S2D_00, "double", OPS_WRITE),
 				ops_arg_dat(ycvrs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxj, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxjp, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fv, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fvp, 1, S2D_00, "double", OPS_WRITE),
 				ops_arg_idx());
+
 	} else if (coordmode == 1) {
-		printf("under development");
+		ops_par_loop(gridsetup_kernel_setupY_Cylindrical,
+				"gridsetup_kernel_setupY_Cylindrical", fvm2dc_grid, 2,
+				iter_range, ops_arg_dat(radius, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(rmn, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sxmn, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvr, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvrs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxj, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxjp, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fv, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fvp, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_idx());
 
 	} else if (coordmode == 2) {
-		printf("under development");
+		ops_par_loop(gridsetup_kernel_setupY_Polar,
+				"gridsetup_kernel_setupY_Polar", fvm2dc_grid, 2, iter_range,
+				ops_arg_dat(radius, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(rmn, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(sxmn, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvr, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvrs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arx, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxj, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(arxjp, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fv, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(fvp, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_idx());
 	} else {
 		printf("coordmode error");
 	}
 
-	//
-	//	ops_par_loop(gridsetup_kernel_facex, "gridsetup_kernel_facex", fvm2dc_grid,
-	//			2, iter_range,
-	//			ops_arg_dat(xu_facex, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_idx());
-	//
-	//	//YV，
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_facey, "gridsetup_kernel_facey", fvm2dc_grid,
-	//			2, iter_range,
-	//			ops_arg_dat(yv_facey, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_idx());
 
-	//******************************************************
-	//ugrid部分结束
-	//******************************************************
+	ops_print_dat_to_txtfile(radius, "radius.dat");
+	ops_print_dat_to_txtfile(sx, "sx.dat");
+	ops_print_dat_to_txtfile(rmn, "rmn.dat");
+	ops_print_dat_to_txtfile(sxmn, "sxmn.dat");
+	ops_print_dat_to_txtfile(ycvr, "ycvr.dat");
+	ops_print_dat_to_txtfile(ycvrs, "ycvrs.dat");
+	ops_print_dat_to_txtfile(arx, "arx.dat");
+	ops_print_dat_to_txtfile(arxj, "arxj.dat");
+	ops_print_dat_to_txtfile(arxjp, "arxjp.dat");
+	ops_print_dat_to_txtfile(fv, "fv.dat");
+	ops_print_dat_to_txtfile(fvp, "fvp.dat");
 
-	//******************************************************
-	//以下内容改自simpler95的setup1部分
-	//*****************************************************
 
-	//X,按照原始的fortran版本，是在setup1中根据xu的值算x的，我们仍然保留这样的算法
-	//会用到当前点的facex和右边一点的facex，
-	//所以我们用了S2D_00_P10。（在将来的版本中可能会改为更为迅捷的基于xlength和xcells的算法。）
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_cellx, "gridsetup_kernel_cellx", fvm2dc_grid,
-	//			2, iter_range, ops_arg_dat(x_cellx, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(xu_facex, 1, S2D_00_P10, "double", OPS_READ),
-	//			ops_arg_idx());
-
-	//Y,按照原始的fortran版本，是在setup1中根据yv的值算y的，我们仍然保留这样的算法
-	//会用到当前点的facey和右边一点的facey，
-	//	//所以我们用了S2D_00_P10。（在将来的版本中可能会改为更为迅捷的基于xlength和xcells的算法。）
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celly, "gridsetup_kernel_celly", fvm2dc_grid,
-	//			2, iter_range, ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(yv_facey, 1, S2D_00_0P1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//XDIFF
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_celldx, "gridsetup_kernel_celldx",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(xdif_celldx, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(x_cellx, 1, S2D_00_M10, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//XCV，就是x方向主控制容积，根据facex计算出来
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_facedx, "gridsetup_kernel_facedx",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(xcv_facedx, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(xu_facex, 1, S2D_00_M10, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//xcvs
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2dc_grid, 2,
-	//			iter_range, ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(xdif_celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//xcvi
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2dc_grid, 2,
-	//			iter_range, ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(xdif_celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//xcvip
-	//	iter_range[0] = 0;
-	//	iter_range[1] = xL1 + 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = 1;
-	//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2dc_grid, 2,
-	//			iter_range, ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(xdif_celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//YDIF
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celly, "gridsetup_kernel_celly", fvm2dc_grid,
-	//			2, iter_range, ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(yv_facey, 1, S2D_00_0P1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//Ycv
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_facedy, "gridsetup_kernel_facedy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ycv_facedy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(yv_facey, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//Ycvs
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-
-	//	if (coordmode == 1) {
-	//
-	//		//rmn
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//r
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//sx
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//sxmn
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//ycvr
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//arx
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//ycvs
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//arxj
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//
-	//		//arxjp
-	//		iter_range[0] = 0;
-	//		iter_range[1] = 1;
-	//		iter_range[2] = 0;
-	//		iter_range[3] = yM1 + 1;
-	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//				fvm2dc_grid, 2, iter_range,
-	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//				ops_arg_idx());
-	//	}
-	//	//fv
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//fvp
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//fx
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//fxm
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//	//fy
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
-	//
-	//	//fym
-	//	iter_range[0] = 0;
-	//	iter_range[1] = 1;
-	//	iter_range[2] = 0;
-	//	iter_range[3] = yM1 + 1;
-	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-	//			fvm2dc_grid, 2, iter_range,
-	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-	//			ops_arg_idx());
 	//******************************************************
 	//simpler95的setup1部分结束，con,ap,u,v,rho,cp,pc的初始化，放到buildinitialfield中去
 	//*****************************************************
