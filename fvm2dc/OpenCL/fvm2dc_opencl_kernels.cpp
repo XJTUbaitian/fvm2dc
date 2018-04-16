@@ -209,11 +209,12 @@ void buildOpenCLKernels() {
   if (!isbuilt) {
     // clSafeCall( clUnloadCompiler() );
 
-    OPS_opencl_core.n_kernels = 1;
-    OPS_opencl_core.kernel = (cl_kernel *)malloc(1 * sizeof(cl_kernel));
+    OPS_opencl_core.n_kernels = 2;
+    OPS_opencl_core.kernel = (cl_kernel *)malloc(2 * sizeof(cl_kernel));
   }
   isbuilt = true;
 }
 
 // user kernel files
 #include "gridsetup_kernel_setupX_opencl_kernel.cpp"
+#include "gridsetup_kernel_setupY_Cartesian_opencl_kernel.cpp"

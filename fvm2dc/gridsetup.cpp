@@ -65,7 +65,7 @@ void gridsetup() {
 	int iter_range[] = { 0, 1, 0, 1 }; //局部变量
 
 	//******************************************************
-	//以下内容改自simpler95的ugrid部分
+	//改自simpler95的ugrid部分
 	//******************************************************
 
 	//XU,按照原始的fortran版本，是根据xl和xcells算出dx，然后进行xu的计算，从xu(2)到xu(L1)。在当前的ops版本中
@@ -94,21 +94,31 @@ void gridsetup() {
 	ops_print_dat_to_txtfile(xcvs, "xcvs.dat");
 	ops_print_dat_to_txtfile(xcvi, "xcvi.dat");
 	ops_print_dat_to_txtfile(xcvip, "xcvip.dat");
-//
-//	//用一个kernel把所有的Y方向网格变量都设置好
-//	iter_range[0] = 0;
-//	iter_range[1] = xL1 + 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = 1;
-//	ops_par_loop(gridsetup_kernel_setupY, "gridsetup_kernel_setupY",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(yv_facey, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(ycv_facedy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(ycvs, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(ycvr, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(ycvrs, 1, S2D_00, "double", OPS_WRITE), ops_arg_idx());
+	//
+	//	//用一个kernel把所有的Y方向网格变量都设置好
+	iter_range[0] = 0;
+	iter_range[1] = 1;
+	iter_range[2] = 0;
+	iter_range[3] = yM1;
+	if (coordmode == 0) {
+		ops_par_loop(gridsetup_kernel_setupY_Cartesian,
+				"gridsetup_kernel_setupY_Cartesian", fvm2dc_grid, 2, iter_range,
+				ops_arg_dat(yv_facey, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycv_facedy, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvr, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_dat(ycvrs, 1, S2D_00, "double", OPS_WRITE),
+				ops_arg_idx());
+	} else if (coordmode == 1) {
+		printf("under development");
+
+	} else if (coordmode == 2) {
+		printf("under development");
+	} else {
+		printf("coordmode error");
+	}
 
 	//
 	//	ops_par_loop(gridsetup_kernel_facex, "gridsetup_kernel_facex", fvm2dc_grid,
@@ -242,184 +252,184 @@ void gridsetup() {
 	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
 	//			ops_arg_idx());
 
-//	if (coordmode == 1) {
-//
-//		//rmn
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//r
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//sx
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//sxmn
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//ycvr
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//arx
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//ycvs
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//arxj
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//
-//		//arxjp
-//		iter_range[0] = 0;
-//		iter_range[1] = 1;
-//		iter_range[2] = 0;
-//		iter_range[3] = yM1 + 1;
-//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//				fvm2dc_grid, 2, iter_range,
-//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//				ops_arg_idx());
-//	}
-//	//fv
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
-//
-//	//fvp
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
-//
-//	//fx
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
-//
-//	//fxm
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
-//	//fy
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
-//
-//	//fym
-//	iter_range[0] = 0;
-//	iter_range[1] = 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
+	//	if (coordmode == 1) {
+	//
+	//		//rmn
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//r
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//sx
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//sxmn
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//ycvr
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//arx
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//ycvs
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//arxj
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//
+	//		//arxjp
+	//		iter_range[0] = 0;
+	//		iter_range[1] = 1;
+	//		iter_range[2] = 0;
+	//		iter_range[3] = yM1 + 1;
+	//		ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//				fvm2dc_grid, 2, iter_range,
+	//				ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//				ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//				ops_arg_idx());
+	//	}
+	//	//fv
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
+	//
+	//	//fvp
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
+	//
+	//	//fx
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
+	//
+	//	//fxm
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
+	//	//fy
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
+	//
+	//	//fym
+	//	iter_range[0] = 0;
+	//	iter_range[1] = 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
 	//******************************************************
 	//simpler95的setup1部分结束，con,ap,u,v,rho,cp,pc的初始化，放到buildinitialfield中去
 	//*****************************************************
 
 	//con,ap,u,v,rho,cp,pc,p
-//	iter_range[0] = 0;
-//	iter_range[1] = xL1 + 1;
-//	iter_range[2] = 0;
-//	iter_range[3] = yM1 + 1;
-//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
-//			fvm2dc_grid, 2, iter_range,
-//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
-//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
-//			ops_arg_idx());
+	//	iter_range[0] = 0;
+	//	iter_range[1] = xL1 + 1;
+	//	iter_range[2] = 0;
+	//	iter_range[3] = yM1 + 1;
+	//	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+	//			fvm2dc_grid, 2, iter_range,
+	//			ops_arg_dat(ydif_celldy, 1, S2D_00, "double", OPS_WRITE),
+	//			ops_arg_dat(y_celly, 1, S2D_00_0M1, "double", OPS_READ),
+	//			ops_arg_idx());
 
 }

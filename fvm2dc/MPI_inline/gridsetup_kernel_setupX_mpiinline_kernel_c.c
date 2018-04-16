@@ -72,7 +72,6 @@ void gridsetup_kernel_setupX_c_wrapper(
         xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
         xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
         xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
-
       } else if (idx[0] == xL3 - 1) {
         xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
         x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
@@ -81,7 +80,6 @@ void gridsetup_kernel_setupX_c_wrapper(
         xcvs[OPS_ACC4(0, 0)] = d_x;
         xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
         xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
-
       } else if (idx[0] == xL2 - 1) {
         xu_facex[OPS_ACC0(0, 0)] = xmax - d_x;
         x_cellx[OPS_ACC1(0, 0)] = xmax - d_x / 2.0;

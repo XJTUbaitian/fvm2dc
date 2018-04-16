@@ -72,18 +72,16 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
 		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
 		xcvs[OPS_ACC4(0, 0)] = d_x + d_x / 2.0;
-		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
-		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
-
+		xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
 	} else if (idx[0] == xL3 - 1) {
 		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
 		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
 		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
 		xcvs[OPS_ACC4(0, 0)] = d_x;
-		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
-		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
-
+		xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
 	} else if (idx[0] == xL2 - 1) {
 		xu_facex[OPS_ACC0(0, 0)] = xmax - d_x;
 		x_cellx[OPS_ACC1(0, 0)] = xmax - d_x / 2.0;
@@ -106,17 +104,141 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
 		xcv_facedx[OPS_ACC3(0, 0)] = d_x;
 		xcvs[OPS_ACC4(0, 0)] = d_x;
-		xcvi[OPS_ACC5(0, 0)] = d_x/2.0;
-		xcvip[OPS_ACC6(0, 0)] = d_x/2.0;
+		xcvi[OPS_ACC5(0, 0)] = d_x / 2.0;
+		xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
 	}
 
 }
 
-void gridsetup_kernel_setupY(double *yv_facey, double *y_celly,
+void gridsetup_kernel_setupY_Cartesian(double *yv_facey, double *y_celly,
 		double *ydif_celldy, double *ycv_facedy, double *ycvs, double *ycvr,
 		double *ycvrs, int *idx) {
 	double d_y;
 	d_y = (ymax - ymin) / (double) ycells;
+
+	if (idx[1] == 0) {
+		yv_facey[OPS_ACC0(0, 0)] = ymin;
+		y_celly[OPS_ACC1(0, 0)] = ymin;
+		ydif_celldy[OPS_ACC2(0, 0)] = 0.0;
+		ycv_facedy[OPS_ACC3(0, 0)] = 0.0;
+		ycvs[OPS_ACC4(0, 0)] = 0.0;
+		ycvr[OPS_ACC5(0, 0)] = 0.0;
+		ycvrs[OPS_ACC6(0, 0)] = 0.0;
+	} else if (idx[1] == 1) {
+		yv_facey[OPS_ACC0(0, 0)] = ymin;
+		y_celly[OPS_ACC1(0, 0)] = ymin + d_y / 2.0;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y / 2.0;
+		ycv_facedy[OPS_ACC3(0, 0)] = d_y;
+		ycvs[OPS_ACC4(0, 0)] = 0.0;
+		ycvr[OPS_ACC5(0, 0)] = 0.0;
+		ycvrs[OPS_ACC6(0, 0)] = d_y;
+	} else if (idx[1] == 2) {
+
+		yv_facey[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1.0);
+		y_celly[OPS_ACC1(0, 0)] = d_y * idx[1] - d_y / 2.0;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
+		ycv_facedy[OPS_ACC3(0, 0)] = d_y;
+		ycvs[OPS_ACC4(0, 0)] = d_y + d_y / 2.0;
+		ycvr[OPS_ACC5(0, 0)] = d_y / 2.0;
+		ycvrs[OPS_ACC6(0, 0)] = d_y / 2.0;
+
+	} else if (idx[1] == yM3 - 1) {
+		yv_facey[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1.0);
+		y_celly[OPS_ACC1(0, 0)] = d_y * idx[1] - d_y / 2.0;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
+		ycv_facedy[OPS_ACC3(0, 0)] = d_y;
+		ycvs[OPS_ACC4(0, 0)] = d_y;
+		ycvr[OPS_ACC5(0, 0)] = d_y / 2.0;
+		ycvrs[OPS_ACC6(0, 0)] = d_y / 2.0;
+
+	} else if (idx[1] == yM2 - 1) {
+		yv_facey[OPS_ACC0(0, 0)] = ymax - d_y;
+		y_celly[OPS_ACC1(0, 0)] = ymax - d_y / 2.0;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
+		ycv_facedy[OPS_ACC3(0, 0)] = d_y;
+		ycvs[OPS_ACC4(0, 0)] = d_y + d_y / 2.0;
+		ycvr[OPS_ACC5(0, 0)] = d_y;
+		ycvrs[OPS_ACC6(0, 0)] = 0.0;
+
+	} else if (idx[1] == yM1 - 1) {
+		yv_facey[OPS_ACC0(0, 0)] = ymax;
+		y_celly[OPS_ACC1(0, 0)] = ymax;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y / 2.0;
+		ycv_facedy[OPS_ACC3(0, 0)] = 0.0;
+		ycvs[OPS_ACC4(0, 0)] = 0.0;
+		ycvr[OPS_ACC5(0, 0)] = 0.0;
+		ycvrs[OPS_ACC6(0, 0)] = 0.0;
+
+	} else {
+		yv_facey[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1.0);
+		y_celly[OPS_ACC1(0, 0)] = d_y * idx[1] - d_y / 2.0;
+		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
+		ycv_facedy[OPS_ACC3(0, 0)] = d_y;
+		ycvs[OPS_ACC4(0, 0)] = d_y;
+		ycvr[OPS_ACC5(0, 0)] = d_y / 2.0;
+		ycvrs[OPS_ACC6(0, 0)] = d_y / 2.0;
+
+	}
+
+}
+
+void gridsetup_kernel_setupY_Cylindrical(double *yv_facey, double *y_celly,
+		double *ydif_celldy, double *ycv_facedy, double *ycvs, double *ycvr,
+		double *ycvrs, int *idx) {
+	double d_y;
+	d_y = (ymax - ymin) / (double) ycells;
+
+	if (idx[1] == 0) {
+		yv_facey[OPS_ACC0(0, 0)] = ymin;
+		y_celly[OPS_ACC1(0, 0)] = ymin;
+		ydif_celldy[OPS_ACC2(0, 0)] = 0.0;
+		ycv_facedy[OPS_ACC3(0, 0)] = 0.0;
+		ycvs[OPS_ACC4(0, 0)] = 0.0;
+		ycvr[OPS_ACC5(0, 0)] = 0.0;
+		ycvrs[OPS_ACC6(0, 0)] = 0.0;
+	} else if (idx[1] == 1) {
+
+	} else if (idx[1] == 2) {
+
+	} else if (idx[1] == yM3 - 1) {
+
+	} else if (idx[1] == yM2 - 1) {
+
+	} else if (idx[1] == yM1 - 1) {
+
+	} else {
+
+	}
+
+}
+
+void gridsetup_kernel_setupY_Polar(double *yv_facey, double *y_celly,
+		double *ydif_celldy, double *ycv_facedy, double *ycvs, double *ycvr,
+		double *ycvrs, int *idx) {
+	double d_y;
+	d_y = (ymax - ymin) / (double) ycells;
+
+	if (idx[1] == 0) {
+		yv_facey[OPS_ACC0(0, 0)] = ymin;
+		y_celly[OPS_ACC1(0, 0)] = ymin;
+		ydif_celldy[OPS_ACC2(0, 0)] = 0.0;
+		ycv_facedy[OPS_ACC3(0, 0)] = 0.0;
+		ycvs[OPS_ACC4(0, 0)] = 0.0;
+		ycvr[OPS_ACC5(0, 0)] = 0.0;
+		ycvrs[OPS_ACC6(0, 0)] = 0.0;
+	} else if (idx[1] == 1) {
+
+	} else if (idx[1] == 2) {
+
+	} else if (idx[1] == yM3 - 1) {
+
+	} else if (idx[1] == yM2 - 1) {
+
+	} else if (idx[1] == yM1 - 1) {
+
+	} else {
+
+	}
 
 }
 

@@ -28,3 +28,4 @@ void ops_init_backend() {}
 
 // user kernel files
 #include "gridsetup_kernel_setupX_seq_kernel.cpp"
+#include "gridsetup_kernel_setupY_Cartesian_seq_kernel.cpp"
