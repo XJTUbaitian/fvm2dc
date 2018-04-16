@@ -13,15 +13,15 @@
  modification, are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+ list of conditions and the following disclaimer.
 
  * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
  * Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from
+ this software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY Mingtao Li "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -37,7 +37,7 @@
 
  @author Mingtao Li
  mingtao.li@gmail.com
-*/
+ */
 
 /*
  * initialize.cpp
@@ -45,7 +45,6 @@
  *  Created on: Apr 2, 2018
  *      Author: Mintao Li
  */
-
 
 // standard headers
 #include <stdlib.h>
@@ -63,7 +62,7 @@ void initialize()
 
 {
 
-	fvm2dc_grid = ops_decl_block(2, "fvm2d_grid");
+	fvm2dc_grid = ops_decl_block(2, "fvm2dc_grid");
 
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
@@ -74,35 +73,20 @@ void initialize()
 	//XU
 	size[0] = xL1 + 1;
 	size[1] = 1;
-	facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facex");
+	facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"facex");
 
-	//YV
-	size[0] = 1;
-	size[1] = yM1 + 1;
-	facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double", "facey");
 	//X
 	size[0] = xL1;
 	size[1] = 1;
 	cellx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"cellx");
 
-	//Y
-	size[0] = 1;
-	size[1] = yM1;
-	celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"celly");
-
 	//XDIF
 	size[0] = xL1;
 	size[1] = 1;
 	celldx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"celldx");
-
-	//YDIF
-	size[0] = 1;
-	size[1] = yM1;
-	celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"celldy");
 
 	//XCV
 	size[0] = xL1;
@@ -113,6 +97,24 @@ void initialize()
 			"xcvi");
 	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvip");
+
+	//YV
+	size[0] = 1;
+	size[1] = yM1 + 1;
+	facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"facey");
+
+	//Y
+	size[0] = 1;
+	size[1] = yM1;
+	celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"celly");
+
+	//YDIF
+	size[0] = 1;
+	size[1] = yM1;
+	celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"celldy");
 
 	//YCV
 	size[0] = 1;

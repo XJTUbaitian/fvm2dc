@@ -98,14 +98,33 @@ ops_dat gam; // 原来的变量GAM
 ops_dat cp; // 原来的变量cp
 
 ops_dat con; // 原来的变量con
-
 ops_dat aip; // 原来的变量aip
 ops_dat aim; // 原来的变量aim
-
 ops_dat ajp; // 原来的变量ajp
 ops_dat ajm; // 原来的变量ajm
-
 ops_dat app; // 原来的变量ap
+
+ops_dat ucon; // 原来的变量ucon,cofu1
+ops_dat uaip; // 原来的变量uaip,cofu2
+ops_dat uaim; // 原来的变量uaim,cofu3
+ops_dat uajp; // 原来的变量uajp,cofu4
+ops_dat uajm; // 原来的变量uajm,cofu5
+ops_dat uapp; // 原来的变量uap,cofu6
+
+ops_dat vcon; // 原来的变量vcon,cofv1
+ops_dat vaip; // 原来的变量vaip,cofv2
+ops_dat vaim; // 原来的变量vaim,cofv3
+ops_dat vajp; // 原来的变量vajp,cofv4
+ops_dat vajm; // 原来的变量vajm,cofv5
+ops_dat vapp; // 原来的变量vap,cofv6
+
+ops_dat pcon; // 原来的变量pcon,cof1
+ops_dat paip; // 原来的变量paip,cof2
+ops_dat paim; // 原来的变量paim,cof3
+ops_dat pajp; // 原来的变量pajp,cof4
+ops_dat pajm; // 原来的变量pajm,cof5
+ops_dat papp; // 原来的变量pap,cof6
+
 
 //commonly used stencils
 ops_stencil S2D_00; // 00
@@ -142,5 +161,16 @@ double flow; //原来的变量flow
 double diff; //原来的变量diff
 double acof; //原来的变量acof
 
+int nf; //原来的变量nf
+int np; //原来的变量np
+int nrho; //原来的变量nrho
+int ngam; //原来的变量ngam
+int ncp; //原来的变量ncp
+int istart; //原来的变量istart
+int jstart; //原来的变量jstart
+int last; //原来的变量last
+int ntimes[NFX4]; //原来的变量ntimes
+int ipref; //原来的变量ipref
+int jpref; //原来的变量jpref
 
 int coordmode; //原来的变量mode

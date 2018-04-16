@@ -13,15 +13,15 @@
  modification, are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+ list of conditions and the following disclaimer.
 
  * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
  * Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from
+ this software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY Mingtao Li "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -37,84 +37,83 @@
 
  @author Mingtao Li
  mingtao.li@gmail.com
-*/
+ */
 
-#ifndef __FVM2D_KERNELS_H
-#define __FVM2D_KERNELS_H
+#ifndef FVM2DC_GRIDSETUP_KERNEL_H_
+#define FVM2DC_GRIDSETUP_KERNEL_H_
 
 #include "globalvars.h"
 
-void gridsetup_kernel_facex(double *val, int *idx) {
+//XU的计算，这种写法是并行的写法
+
+void gridsetup_kernel_facex(double *facex, int *idx) {
 
 	double d_x;
 	if (idx[0] == 0) {
-		val[OPS_ACC0(0,0)]=0;
+		facex[OPS_ACC0(0, 0)] = 0;
 	} else if (idx[0] == xL1) {
-		val[OPS_ACC0(0,0)]=xmax;
+		facex[OPS_ACC0(0, 0)] = xmax;
 	} else {
 		d_x = (xmax - xmin) / (double) xcells;
 
-		val[OPS_ACC0(0,0)] = d_x*(idx[0]-1);
+		facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
 	}
 }
+
 void gridsetup_kernel_facey(double *val, int *idx) {
 
 	double d_y;
 	if (idx[1] == 0) {
-		val[OPS_ACC0(0,0)]=0;
+		val[OPS_ACC0(0, 0)] = 0;
 	} else if (idx[1] == yM1) {
-		val[OPS_ACC0(0,0)]=ymax;
+		val[OPS_ACC0(0, 0)] = ymax;
 	} else {
 		d_y = (ymax - ymin) / (double) ycells;
 
-		val[OPS_ACC0(0,0)] = d_y*(idx[1]-1);
+		val[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1);
 	}
 }
 
 void gridsetup_kernel_cellx(double *cellx, double *facex, int *idx) {
-
-cellx[OPS_ACC0(0,0)]=(facex[OPS_ACC1(0,0)]+facex[OPS_ACC1(1,0)])/2.0;
-
+	cellx[OPS_ACC0(0, 0)] = (facex[OPS_ACC1(0, 0)] + facex[OPS_ACC1(1, 0)])
+					/ 2.0;
 }
 
 void gridsetup_kernel_celldx(double *celldx, double *cellx, int *idx) {
-
-celldx[OPS_ACC0(0,0)]=cellx[OPS_ACC1(0,0)]-cellx[OPS_ACC1(-1,0)];
-
+	celldx[OPS_ACC0(0, 0)] = cellx[OPS_ACC1(0, 0)] - cellx[OPS_ACC1(-1, 0)];
 }
 
 void gridsetup_kernel_facedx(double *facedx, double *facex, int *idx) {
-
-	facedx[OPS_ACC0(0,0)]=facex[OPS_ACC1(0,0)]-facex[OPS_ACC1(-1,0)];
-
+	facedx[OPS_ACC0(0, 0)] = facex[OPS_ACC1(0, 0)] - facex[OPS_ACC1(-1, 0)];
 }
+
 void gridsetup_kernel_xcvs(double *xcvs, double *celldx, int *idx) {
 
 	if (idx[0] == 0) {
 	} else if (idx[0] == xL1) {
 	} else {
 
-		xcvs[OPS_ACC0(0,0)]=celldx[OPS_ACC1(0,0)];}
+		xcvs[OPS_ACC0(0, 0)] = celldx[OPS_ACC1(0, 0)];
+	}
 
 }
 
-
 void gridsetup_kernel_celly(double *celly, double *facey, int *idx) {
 
-celly[OPS_ACC0(0,0)]=(facey[OPS_ACC1(0,0)]+facey[OPS_ACC1(0,1)])/2.0;
+	celly[OPS_ACC0(0, 0)] = (facey[OPS_ACC1(0, 0)] + facey[OPS_ACC1(0, 1)])
+					/ 2.0;
 
 }
 
 void gridsetup_kernel_celldy(double *celldy, double *celly, int *idx) {
 
-	celldy[OPS_ACC0(0,0)]=celly[OPS_ACC1(0,0)]-celly[OPS_ACC1(0,-1)];
+	celldy[OPS_ACC0(0, 0)] = celly[OPS_ACC1(0, 0)] - celly[OPS_ACC1(0, -1)];
 
 }
 
-
 void gridsetup_kernel_facedy(double *facedy, double *facey, int *idx) {
 
-	facedy[OPS_ACC0(0,0)]=facey[OPS_ACC1(0,0)]-facey[OPS_ACC1(0,-1)];
+	facedy[OPS_ACC0(0, 0)] = facey[OPS_ACC1(0, 0)] - facey[OPS_ACC1(0, -1)];
 
 }
 

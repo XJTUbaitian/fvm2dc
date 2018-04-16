@@ -55,7 +55,7 @@ void ops_par_loop_gridsetup_kernel_facex_execute(ops_kernel_descriptor *desc) {
 
   // set up initial pointers and exchange halos if necessary
   int base0 = args[0].dat->base_offset;
-  double *__restrict__ val = (double *)(args[0].data + base0);
+  double *__restrict__ facex = (double *)(args[0].data + base0);
 
   // initialize global variable with the dimension of dats
   int xdim0_gridsetup_kernel_facex = args[0].dat->size[0];
@@ -69,7 +69,7 @@ void ops_par_loop_gridsetup_kernel_facex_execute(ops_kernel_descriptor *desc) {
   for (int n_y = start[1]; n_y < end[1]; n_y++) {
 #ifdef intel
 #pragma loop_count(10000)
-#pragma omp simd aligned(val)
+#pragma omp simd aligned(facex)
 #else
 #pragma simd
 #endif
@@ -78,13 +78,13 @@ void ops_par_loop_gridsetup_kernel_facex_execute(ops_kernel_descriptor *desc) {
 
       double d_x;
       if (idx[0] == 0) {
-        val[OPS_ACC0(0, 0)] = 0;
+        facex[OPS_ACC0(0, 0)] = 0;
       } else if (idx[0] == xL1) {
-        val[OPS_ACC0(0, 0)] = xmax;
+        facex[OPS_ACC0(0, 0)] = xmax;
       } else {
         d_x = (xmax - xmin) / (double)xcells;
 
-        val[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
+        facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
       }
     }
   }

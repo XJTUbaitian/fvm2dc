@@ -45,7 +45,7 @@
 #define OPS_ACC0(x, y) (x + xdim0_gridsetup_kernel_facex * (y))
 
 // user function
-void gridsetup_kernel_facex(__global double *restrict val, int *restrict idx,
+void gridsetup_kernel_facex(__global double *restrict facex, int *restrict idx,
                             const double xmin, const double xmax,
                             const int xcells, const int xL1)
 
@@ -53,13 +53,13 @@ void gridsetup_kernel_facex(__global double *restrict val, int *restrict idx,
 
   double d_x;
   if (idx[0] == 0) {
-    val[OPS_ACC0(0, 0)] = 0;
+    facex[OPS_ACC0(0, 0)] = 0;
   } else if (idx[0] == xL1) {
-    val[OPS_ACC0(0, 0)] = xmax;
+    facex[OPS_ACC0(0, 0)] = xmax;
   } else {
     d_x = (xmax - xmin) / (double)xcells;
 
-    val[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
+    facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
   }
 }
 

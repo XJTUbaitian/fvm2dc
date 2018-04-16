@@ -13,15 +13,15 @@
  modification, are permitted provided that the following conditions are met:
 
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer.
+ list of conditions and the following disclaimer.
 
  * Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   and/or other materials provided with the distribution.
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
  * Neither the name of the copyright holder nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from
+ this software without specific prior written permission.
 
  THIS SOFTWARE IS PROVIDED BY Mingtao Li "AS IS"
  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -37,7 +37,7 @@
 
  @author Mingtao Li
  mingtao.li@gmail.com
-*/
+ */
 
 /*
  * gridsetup.cpp
@@ -59,80 +59,88 @@
 
 #include "gridsetup_kernel.h"
 
-
-void gridsetup()
-{
+void gridsetup() {
 	//ops_diagnostic_output();
-	int iter_range[] = {0,xL1+1,0,1};
+	int iter_range[] = { 0, xL1 + 1, 0, 1 };
 
-	ops_par_loop(gridsetup_kernel_facex, "gridsetup_kernel_facex", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(facex, 1, S2D_00, "double", OPS_WRITE),
-	              ops_arg_idx());
+	//XU,按照原始的fortran版本，是根据xl和xcells算出dx，然后进行xu的计算，从xu(2)到xu(L1)。在当前的ops版本中
+	//我们为了全部统一，从xu(0)到xu(L1)都给做出来。把xmin、xmax和xcells设置成全局变量，才能直接从cuda调用。
+	//所以在globalvars声明了ops_constan的xmin、xmax和xcells
 
-	ops_par_loop(gridsetup_kernel_cellx, "gridsetup_kernel_cellx", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(cellx, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(facex, 1, S2D_00_P10, "double", OPS_READ),
-	              ops_arg_idx());
+	ops_par_loop(gridsetup_kernel_facex, "gridsetup_kernel_facex", fvm2dc_grid,
+			2, iter_range, ops_arg_dat(facex, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_idx());
 
-	ops_par_loop(gridsetup_kernel_facedx, "gridsetup_kernel_facedx", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(facedx, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(facex, 1, S2D_00_M10, "double", OPS_READ),
-	              ops_arg_idx());
+	//X,按照原始的fortran版本，是根据xu的值算x的，在setup1中，我们仍然保留这样的算法
+	//X的iter_range范围仍然与上述iter_range,所以我们不做修改。但是会用到当前点的facex和右边一点的facex，
+	//所以我们用了S2D_00_P10。（在将来的版本中可能会改为更为迅捷的基于xlength和xcells的算法。）
+	ops_par_loop(gridsetup_kernel_cellx, "gridsetup_kernel_cellx", fvm2dc_grid,
+			2, iter_range, ops_arg_dat(cellx, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(facex, 1, S2D_00_P10, "double", OPS_READ),
+			ops_arg_idx());
 
-	ops_par_loop(gridsetup_kernel_celldx, "gridsetup_kernel_celldx", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(celldx, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(cellx, 1, S2D_00_M10, "double", OPS_READ),
-	              ops_arg_idx());
-	ops_print_dat_to_txtfile(facex, "facex.dat");
-//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2d_grid, 2, iter_range,
-//	              ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
-//				  ops_arg_dat(celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
-//	              ops_arg_idx());
+	//XCV，就是x方向主控制容积，根据facex计算出来
+	ops_par_loop(gridsetup_kernel_facedx, "gridsetup_kernel_facedx",
+			fvm2dc_grid, 2, iter_range,
+			ops_arg_dat(facedx, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(facex, 1, S2D_00_M10, "double", OPS_READ),
+			ops_arg_idx());
+
+	//XDIFF
+	ops_par_loop(gridsetup_kernel_celldx, "gridsetup_kernel_celldx",
+			fvm2dc_grid, 2, iter_range,
+			ops_arg_dat(celldx, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(cellx, 1, S2D_00_M10, "double", OPS_READ),
+			ops_arg_idx());
+
+
+	//ops_print_dat_to_txtfile(facex, "facex.dat");
+	//	ops_par_loop(gridsetup_kernel_xcvs, "gridsetup_kernel_xcvs", fvm2dc_grid, 2, iter_range,
+	//	              ops_arg_dat(xcvs, 1, S2D_00, "double", OPS_WRITE),
+	//				  ops_arg_dat(celldx, 1, S2D_00_P10_M10, "double", OPS_READ),
+	//	              ops_arg_idx());
 
 	iter_range[0] = 0;
 	iter_range[1] = 1;
 	iter_range[2] = 0;
-	iter_range[3] = yM1+1;
-	ops_par_loop(gridsetup_kernel_facey, "gridsetup_kernel_facey", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(facey, 1, S2D_00, "double", OPS_WRITE),
-	              ops_arg_idx());
+	iter_range[3] = yM1 + 1;
+	ops_par_loop(gridsetup_kernel_facey, "gridsetup_kernel_facey", fvm2dc_grid,
+			2, iter_range, ops_arg_dat(facey, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_idx());
 
-	ops_par_loop(gridsetup_kernel_celly, "gridsetup_kernel_celly", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(celly, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(facey, 1, S2D_00_0P1, "double", OPS_READ),
-	              ops_arg_idx());
+	ops_par_loop(gridsetup_kernel_celly, "gridsetup_kernel_celly", fvm2dc_grid,
+			2, iter_range, ops_arg_dat(celly, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(facey, 1, S2D_00_0P1, "double", OPS_READ),
+			ops_arg_idx());
 
-	ops_par_loop(gridsetup_kernel_facedy, "gridsetup_kernel_facedy", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(facedy, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(facey, 1, S2D_00_0M1, "double", OPS_READ),
-	              ops_arg_idx());
+	ops_par_loop(gridsetup_kernel_facedy, "gridsetup_kernel_facedy",
+			fvm2dc_grid, 2, iter_range,
+			ops_arg_dat(facedy, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(facey, 1, S2D_00_0M1, "double", OPS_READ),
+			ops_arg_idx());
 
-	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy", fvm2dc_grid, 2, iter_range,
-	              ops_arg_dat(celldy, 1, S2D_00, "double", OPS_WRITE),
-				  ops_arg_dat(celly, 1, S2D_00_0M1, "double", OPS_READ),
-	              ops_arg_idx());
-
+	ops_par_loop(gridsetup_kernel_celldy, "gridsetup_kernel_celldy",
+			fvm2dc_grid, 2, iter_range,
+			ops_arg_dat(celldy, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(celly, 1, S2D_00_0M1, "double", OPS_READ),
+			ops_arg_idx());
 
 	ops_print_dat_to_txtfile(facex, "facex.dat");
 	ops_print_dat_to_txtfile(facey, "facey.dat");
 	ops_print_dat_to_txtfile(cellx, "cellx.dat");
-//	ops_print_dat_to_txtfile(celly, "celly.dat");
-//	ops_print_dat_to_txtfile(celldx, "celldx.dat");
-//	ops_print_dat_to_txtfile(celldy, "celldy.dat");
-//	ops_print_dat_to_txtfile(facedx, "facedx.dat");
-//	ops_print_dat_to_txtfile(facedy, "facedy.dat");
+	//	ops_print_dat_to_txtfile(celly, "celly.dat");
+	//	ops_print_dat_to_txtfile(celldx, "celldx.dat");
+	//	ops_print_dat_to_txtfile(celldy, "celldy.dat");
+	//	ops_print_dat_to_txtfile(facedx, "facedx.dat");
+	//	ops_print_dat_to_txtfile(facedy, "facedy.dat");
 
-	if(coordmode==1){
+	if (coordmode == 1) {
 
-	}
-	else if(coordmode==2){
+	} else if (coordmode == 2) {
 
-	}
-	else if(coordmode==3){
+	} else if (coordmode == 3) {
 
-	}
-	else
-	{
+	} else {
 
 	}
 

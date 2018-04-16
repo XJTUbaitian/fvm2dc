@@ -11,7 +11,7 @@ int xdim0_gridsetup_kernel_facex;
 
 // user function
 
-void gridsetup_kernel_facex_c_wrapper(double *restrict val, int *restrict idx,
+void gridsetup_kernel_facex_c_wrapper(double *restrict facex, int *restrict idx,
                                       int arg_idx0, int arg_idx1, int x_size,
                                       int y_size) {
 #pragma omp parallel for
@@ -21,13 +21,13 @@ void gridsetup_kernel_facex_c_wrapper(double *restrict val, int *restrict idx,
 
       double d_x;
       if (idx[0] == 0) {
-        val[OPS_ACC0(0, 0)] = 0;
+        facex[OPS_ACC0(0, 0)] = 0;
       } else if (idx[0] == xL1) {
-        val[OPS_ACC0(0, 0)] = xmax;
+        facex[OPS_ACC0(0, 0)] = xmax;
       } else {
         d_x = (xmax - xmin) / (double)xcells;
 
-        val[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
+        facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1);
       }
     }
   }
