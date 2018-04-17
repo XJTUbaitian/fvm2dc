@@ -65,32 +65,34 @@ ops_dat xcv_facedx; // simper95.for变量xcv
 ops_dat xcvs; // simper95.for变量xcvs
 ops_dat xcvi; // simper95.for变量xcvi
 ops_dat xcvip; // simper95.for变量xcvip
+ops_dat fx; //simper95.for变量fx
+ops_dat fxm; //simper95.for变量fxm
 
 ops_dat yv_facey; // simper95.for变量yv
 ops_dat y_celly; // simper95.for变量y
 ops_dat ydif_celldy; // simper95.for变量ydif
 ops_dat ycv_facedy; // simper95.for变量ycv
 ops_dat ycvs; // simper95.for变量ycvs
-ops_dat ycvr; // simper95.for变量ycvr
-ops_dat ycvrs; // simper95.for变量ycvrs
+ops_dat fy; //simper95.for变量fy
+ops_dat fym; //simper95.for变量fym
+
+ops_dat radius; //simper95.for变量r
+ops_dat sx; //simper95.for变量sx
+
+ops_dat rmn; //simper95.for变量rmn
+ops_dat sxmn; //simper95.for变量sxmn
 
 ops_dat arx; //simper95.for变量arx
 ops_dat arxj; //simper95.for变量arxj
 ops_dat arxjp; //simper95.for变量arxjp
 
-ops_dat radius; //simper95.for变量r
-ops_dat rmn; //simper95.for变量rmn
-
-ops_dat sx; //simper95.for变量sx
-ops_dat sxmn; //simper95.for变量sxmn
-
+ops_dat ycvr; // simper95.for变量ycvr
+ops_dat ycvrs; // simper95.for变量ycvrs
 
 ops_dat fv; //simper95.for变量fv
 ops_dat fvp; //simper95.for变量fvp
-ops_dat fx; //simper95.for变量fx
-ops_dat fxm; //simper95.for变量fxm
-ops_dat fy; //simper95.for变量fy
-ops_dat fym; //simper95.for变量fym
+
+
 ops_dat pt; //simper95.for变量pt
 ops_dat qt; //simper95.for变量qt
 

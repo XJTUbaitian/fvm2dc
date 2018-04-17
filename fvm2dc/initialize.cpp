@@ -66,8 +66,8 @@ void initialize()
 
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
-	int base[2] = { 0, 0 };
-	int size[2] = { xL1 + 1, yM1 + 1 };
+	int base[2] = { 1, 1 }; //改成从1,1开始，便于与simpler.f90的进行比较
+	int size[2] = { xL1 , yM1 };
 	double *temp = NULL;
 
 	size[0] = xL1;

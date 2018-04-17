@@ -73,10 +73,10 @@ void gridsetup() {
 	//所以在globalvars声明了ops_constan的xmin、xmax和xcells
 
 	//用一个kernel把所有的x方向网格变量都设置好
-	iter_range[0] = 0;
-	iter_range[1] = xL1;
-	iter_range[2] = 0;
-	iter_range[3] = 1;
+	iter_range[0] = 1;
+	iter_range[1] = xL1+1;
+	iter_range[2] = 1;
+	iter_range[3] = 2;
 	ops_par_loop(gridsetup_kernel_setupX, "gridsetup_kernel_setupX",
 			fvm2dc_grid, 2, iter_range,
 			ops_arg_dat(xu_facex, 1, S2D_00, "double", OPS_WRITE),
@@ -101,10 +101,10 @@ void gridsetup() {
 
 	//
 	//用两个kernel把所有的Y方向网格变量都设置好
-	iter_range[0] = 0;
-	iter_range[1] = 1;
-	iter_range[2] = 0;
-	iter_range[3] = yM1;
+	iter_range[0] = 1;
+	iter_range[1] = 2;
+	iter_range[2] = 1;
+	iter_range[3] = yM1+1;
 
 	ops_par_loop(gridsetup_kernel_setupY_Common,
 			"gridsetup_kernel_setupY_Common", fvm2dc_grid, 2, iter_range,

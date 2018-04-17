@@ -50,7 +50,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 	double d_x;
 	d_x = (xmax - xmin) / (double) xcells; //xmax,xmin,xcells是ops常量，所以可以直接使用，xL1,xL2,xL3也是
 
-	if (idx[0] == 0) {
+	if (idx[0] == 1) {
 		xu_facex[OPS_ACC0(0, 0)] = xmin;
 		x_cellx[OPS_ACC1(0, 0)] = xmin;
 		xdif_celldx[OPS_ACC2(0, 0)] = 0.0;
@@ -60,7 +60,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xcvip[OPS_ACC6(0, 0)] = 0.0;
 		fx[OPS_ACC7(0, 0)] = 0.0;
 		fxm[OPS_ACC8(0, 0)] = 0.0;
-	} else if (idx[0] == 1) {
+	} else if (idx[0] == 2) {
 		xu_facex[OPS_ACC0(0, 0)] = xmin;
 		x_cellx[OPS_ACC1(0, 0)] = xmin + d_x / 2.0;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x / 2.0;
@@ -70,7 +70,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xcvip[OPS_ACC6(0, 0)] = d_x;
 		fx[OPS_ACC7(0, 0)] = 0.0;
 		fxm[OPS_ACC8(0, 0)] = 1.0;
-	} else if (idx[0] == 2) {
+	} else if (idx[0] == 3) {
 		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
 		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
@@ -80,7 +80,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
 		fx[OPS_ACC7(0, 0)] = 0.5;
 		fxm[OPS_ACC8(0, 0)] = 0.5;
-	} else if (idx[0] == xL3 - 1) {
+	} else if (idx[0] == xL3) {
 		xu_facex[OPS_ACC0(0, 0)] = d_x * (idx[0] - 1.0);
 		x_cellx[OPS_ACC1(0, 0)] = d_x * idx[0] - d_x / 2.0;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
@@ -90,7 +90,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xcvip[OPS_ACC6(0, 0)] = d_x / 2.0;
 		fx[OPS_ACC7(0, 0)] = 0.5;
 		fxm[OPS_ACC8(0, 0)] = 0.5;
-	} else if (idx[0] == xL2 - 1) {
+	} else if (idx[0] == xL2) {
 		xu_facex[OPS_ACC0(0, 0)] = xmax - d_x;
 		x_cellx[OPS_ACC1(0, 0)] = xmax - d_x / 2.0;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x;
@@ -100,7 +100,7 @@ void gridsetup_kernel_setupX(double *xu_facex, double *x_cellx,
 		xcvip[OPS_ACC6(0, 0)] = 0.0;
 		fx[OPS_ACC7(0, 0)] = 0.5;
 		fxm[OPS_ACC8(0, 0)] = 0.5;
-	} else if (idx[0] == xL1 - 1) {
+	} else if (idx[0] == xL1) {
 		xu_facex[OPS_ACC0(0, 0)] = xmax;
 		x_cellx[OPS_ACC1(0, 0)] = xmax;
 		xdif_celldx[OPS_ACC2(0, 0)] = d_x / 2.0;
@@ -130,7 +130,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 
 	double d_y;
 	d_y = (ymax - ymin) / (double) ycells;
-	if (idx[1] == 0) {
+	if (idx[1] == 1) {
 		yv_facey[OPS_ACC0(0, 0)] = ymin;
 		y_celly[OPS_ACC1(0, 0)] = ymin;
 		ydif_celldy[OPS_ACC2(0, 0)] = 0.0;
@@ -139,7 +139,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 		fy[OPS_ACC5(0, 0)] = 0.0;
 		fym[OPS_ACC6(0, 0)] = 0.0;
 
-	} else if (idx[1] == 1) {
+	} else if (idx[1] == 2) {
 		yv_facey[OPS_ACC0(0, 0)] = ymin;
 		y_celly[OPS_ACC1(0, 0)] = ymin + d_y / 2.0;
 		ydif_celldy[OPS_ACC2(0, 0)] = d_y / 2.0;
@@ -147,7 +147,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 		ycvs[OPS_ACC4(0, 0)] = 0.0;
 		fy[OPS_ACC5(0, 0)] = 0.0;
 		fym[OPS_ACC6(0, 0)] = 0.0;
-	} else if (idx[1] == 2) {
+	} else if (idx[1] == 3) {
 		yv_facey[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1.0);
 		y_celly[OPS_ACC1(0, 0)] = d_y * idx[1] - d_y / 2.0;
 		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
@@ -155,7 +155,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 		ycvs[OPS_ACC4(0, 0)] = d_y + d_y / 2.0;
 		fy[OPS_ACC5(0, 0)] = 0.0;
 		fym[OPS_ACC6(0, 0)] = 0.0;
-	} else if (idx[1] == yM3 - 1) {
+	} else if (idx[1] == yM3) {
 		yv_facey[OPS_ACC0(0, 0)] = d_y * (idx[1] - 1.0);
 		y_celly[OPS_ACC1(0, 0)] = d_y * idx[1] - d_y / 2.0;
 		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
@@ -163,7 +163,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 		ycvs[OPS_ACC4(0, 0)] = d_y;
 		fy[OPS_ACC5(0, 0)] = 0.0;
 		fym[OPS_ACC6(0, 0)] = 0.0;
-	} else if (idx[1] == yM2 - 1) {
+	} else if (idx[1] == yM2) {
 		yv_facey[OPS_ACC0(0, 0)] = ymax - d_y;
 		y_celly[OPS_ACC1(0, 0)] = ymax - d_y / 2.0;
 		ydif_celldy[OPS_ACC2(0, 0)] = d_y;
@@ -171,7 +171,7 @@ void gridsetup_kernel_setupY_Common(double *yv_facey, double *y_celly,
 		ycvs[OPS_ACC4(0, 0)] = d_y + d_y / 2.0;
 		fy[OPS_ACC5(0, 0)] = 0.0;
 		fym[OPS_ACC6(0, 0)] = 0.0;
-	} else if (idx[1] == yM1 - 1) {
+	} else if (idx[1] == yM1) {
 		yv_facey[OPS_ACC0(0, 0)] = ymax;
 		y_celly[OPS_ACC1(0, 0)] = ymax;
 		ydif_celldy[OPS_ACC2(0, 0)] = d_y / 2.0;
@@ -294,7 +294,6 @@ void gridsetup_kernel_setupY_Cylindrical(double *radius, double *sx,
 	double d_y;
 	d_y = (ymax - ymin) / (double) ycells;
 
-
 	if (idx[1] == 0) {
 		radius[OPS_ACC0(0, 0)] = 1.0;
 		sx[OPS_ACC1(0, 0)] = 1.0;
@@ -390,7 +389,6 @@ void gridsetup_kernel_setupY_Polar(double *radius, double *sx, double *rmn,
 	double d_y;
 	d_y = (ymax - ymin) / (double) ycells;
 
-
 	if (idx[1] == 0) {
 		radius[OPS_ACC0(0, 0)] = 1.0;
 		sx[OPS_ACC1(0, 0)] = 1.0;
@@ -479,7 +477,6 @@ void gridsetup_kernel_setupY_Polar(double *radius, double *sx, double *rmn,
 	}
 
 }
-
 
 #endif /* FVM2DC_GRIDSETUP_KERNEL_H_ */
 
