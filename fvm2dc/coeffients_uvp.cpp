@@ -49,7 +49,7 @@ void coeffients_uvp(){
 			ops_arg_dat(gam, 1, S2D_00, "double", OPS_READ),
 			ops_arg_dat(xcv_facedx, 1, S2D_00, "double", OPS_READ),
 			ops_arg_dat(sx, 1, S2D_00, "double", OPS_READ),
-			ops_arg_dat(fx, 1, S2D_00, "double", OPS_READ),
+			ops_arg_dat(fx, 1, S1D_00, "double", OPS_READ),
 			ops_arg_dat(fxm, 1, S2D_00, "double", OPS_READ),
 			ops_arg_dat(xcvi, 1, S2D_00, "double", OPS_READ),
 			ops_arg_dat(xcvip, 1, S2D_00, "double", OPS_READ),

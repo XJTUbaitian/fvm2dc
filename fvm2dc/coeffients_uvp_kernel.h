@@ -21,8 +21,10 @@ void coeffients_uvp_kernel_setupU(double *ucon, double *uaip, double *uaim,
 	double f_l_m; //simpler.f90的flm
 	double flow;
 	double diff;
-	//f_l=xcvi(0,1)*
-
+	f_l = u_xvel0[OPS_ACC0(0, 0)]
+				  * (1 * density[OPS_ACC0(0,0)]
+												  + fxm[OPS_ACC0(0, 0)] * density[OPS_ACC0(0, 0)]);
+	fx[OPS_ACC0(0),idx[1]]
 }
 
 void coeffients_uvp_kernel_setupV(double *radius, double *sx, double *rmn,
