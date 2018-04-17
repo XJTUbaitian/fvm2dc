@@ -93,8 +93,6 @@ ops_dat fv; //simper95.for变量fv
 ops_dat fvp; //simper95.for变量fvp
 
 
-ops_dat pt; //simper95.for变量pt
-ops_dat qt; //simper95.for变量qt
 
 ops_dat u_xvel0; // simper95.for变量U
 ops_dat v_yvel0; // simper95.for变量V
@@ -104,6 +102,10 @@ ops_dat du_deltaxvel0; // simper95.for变量dU
 ops_dat dv_deltayvel0; // simper95.for变量dV
 ops_dat uhat_xvelhat; // simper95.for变量UHAT
 ops_dat vhat_yvelhat; // simper95.for变量VHAT
+
+ops_dat pt; //simper95.for变量pt
+ops_dat qt; //simper95.for变量qt
+
 
 ops_dat pressure; // simper95.for变量P
 ops_dat density; // simper95.for变量RHO
@@ -159,6 +161,8 @@ int ycells;
 double xlength; //simper95.for变量xl
 double ylength; //simper95.for变量yl
 
+double rhocon; //simper95.for变量rhocon
+double cpcon; //simper95.for变量cpcon
 
 int xL1; //simper95.for变量L1
 int xL2; //simper95.for变量L2
@@ -167,6 +171,8 @@ int yM1; //simper95.for变量M1
 int yM2; //simper95.for变量M2
 int yM3; //simper95.for变量M3
 int iter; //simper95.for变量iter
+
+
 
 double smax; //simper95.for变量smax
 double ssum; //simper95.for变量ssum

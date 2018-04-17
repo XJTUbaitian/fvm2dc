@@ -81,36 +81,36 @@ extern ops_block fvm2dc_grid; //grid,网格，
 
 //ops dats
 extern ops_dat xu_facex; // simper95.for变量xu
-extern ops_dat yv_facey; // simper95.for变量yv
 extern ops_dat x_cellx; // simper95.for变量x
-extern ops_dat y_celly; // simper95.for变量y
 extern ops_dat xdif_celldx; // simper95.for变量xdif
-extern ops_dat ydif_celldy; // simper95.for变量ydif
 extern ops_dat xcv_facedx; // simper95.for变量xcv
-extern ops_dat ycv_facedy; // simper95.for变量ycv
 extern ops_dat xcvs; // simper95.for变量xcvs
-extern ops_dat ycvs; // simper95.for变量ycvs
 extern ops_dat xcvi; // simper95.for变量xcvi
 extern ops_dat xcvip; // simper95.for变量xcvip
+extern ops_dat fx; //simper95.for变量fx
+extern ops_dat fxm; //simper95.for变量fxm
+
+
+extern ops_dat yv_facey; // simper95.for变量yv
+extern ops_dat y_celly; // simper95.for变量y
+extern ops_dat ydif_celldy; // simper95.for变量ydif
+extern ops_dat ycv_facedy; // simper95.for变量ycv
+extern ops_dat ycvs; // simper95.for变量ycvs
 extern ops_dat ycvr; // simper95.for变量ycvr
 extern ops_dat ycvrs; // simper95.for变量ycvrs
+extern ops_dat fy; //simper95.for变量fy
+extern ops_dat fym; //simper95.for变量fym
 
+extern ops_dat radius; //simper95.for变量r
+extern ops_dat sx; //simper95.for变量sx
+extern ops_dat rmn; //simper95.for变量rmn
+extern ops_dat sxmn; //simper95.for变量sxmn
 extern ops_dat arx; //simper95.for变量arx
 extern ops_dat arxj; //simper95.for变量arxj
 extern ops_dat arxjp; //simper95.for变量arxjp
-
-extern ops_dat radius; //simper95.for变量r
-extern ops_dat rmn; //simper95.for变量rmn
-
-extern ops_dat sx; //simper95.for变量sx
-extern ops_dat sxmn; //simper95.for变量sxmn
-
 extern ops_dat fv; //simper95.for变量fv
 extern ops_dat fvp; //simper95.for变量fvp
-extern ops_dat fx; //simper95.for变量fx
-extern ops_dat fxm; //simper95.for变量fxm
-extern ops_dat fy; //simper95.for变量fy
-extern ops_dat fym; //simper95.for变量fym
+
 extern ops_dat pt; //simper95.for变量pt
 extern ops_dat qt; //simper95.for变量qt
 

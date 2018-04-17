@@ -65,6 +65,7 @@
 void initialize();
 void gridsetup();
 void buildinitialfield();
+void dense();
 
 int main(int argc, char **argv) {
 
@@ -108,16 +109,16 @@ int main(int argc, char **argv) {
 //  ops_diagnostic_output();
 
 	buildinitialfield();
-	/*
-	 while () {
+
+	 while (lstop==0) {
 	 dense();
-	 bound();
-	 output();
-	 iternext();
+//	 bound();
+//	 output();
+//	 iternext();
 	 }
 
-	 output();
-	 */
+//	 output();
+
 	ops_exit();
 	return 0;
 

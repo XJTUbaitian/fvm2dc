@@ -67,7 +67,7 @@ void initialize()
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
 	int base[2] = { 1, 1 }; //改成从1,1开始，便于与simpler.f90的进行比较
-	int size[2] = { xL1 , yM1 };
+	int size[2] = { xL1, yM1 };
 	double *temp = NULL;
 
 	size[0] = xL1;
@@ -94,30 +94,82 @@ void initialize()
 	//xcvip
 	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvip");
+	//fx
+	fx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fx");
+	//fxm
+	fxm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fxm");
+
+	size[0] = 1;
+	size[1] = yM1;
 
 	//YV
-	size[0] = 1;
-	size[1] = yM1 + 1;
 	yv_facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "yv_facey");
 
 	//Y
-	size[0] = 1;
-	size[1] = yM1;
 	y_celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"y_celly");
 
 	//YDIF
-	size[0] = 1;
-	size[1] = yM1;
 	ydif_celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "ydif_celldy");
 
 	//YCV
-	size[0] = 1;
-	size[1] = yM1;
 	ycv_facedy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "ycv_facedy");
+
+	//YCVS
+	ycvs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ycvs");
+
+	//fy
+	fy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fy");
+	//fym
+	fym = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fym");
+
+	//radius
+	radius = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"radius");
+	//sx
+	sx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"sx");
+	//rmn
+	rmn = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"rmn");
+	//sxmn
+	sxmn = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"sxmn");
+
+	//arx
+	arx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"arx");
+	//arxj
+	arxj = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"arxj");
+
+	//arxjp
+	arxjp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"arxjp");
+
+	//ycvr
+	ycvr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ycvr");
+
+	//ycvrs
+	ycvrs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ycvrs");
+
+	//fv
+	fv = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fv");
+
+	//fvp
+	fvp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"fvp");
 
 	size[0] = xL1;
 	size[1] = yM1;
@@ -136,6 +188,78 @@ void initialize()
 	vhat_yvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "vhat_yvelhat");
 
+	pt = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"pt");
+
+	qt = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"qt");
+
+	pressure = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
+			"double", "pressure");
+	density = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"density");
+
+	gam = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"gam");
+	cp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"cp");
+
+	//一般方程的系数
+
+	con = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"con");
+	aip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"aip");
+	aim = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"aim");
+	ajp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ajp");
+	ajm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ajm");
+	app = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"app");
+	//U方程的系数
+	ucon = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ucon");
+	uaip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uaip");
+	uaim = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uaim");
+	uajp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uajp");
+	uajm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uajm");
+	uapp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uapp");
+
+	//V方程的系数
+	vcon = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vcon");
+	vaip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vaip");
+	vaim = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vaim");
+	vajp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vajp");
+	vajm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vajm");
+	vapp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vapp");
+	//P方程的系数
+	pcon = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"pcon");
+	paip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"paip");
+	paim = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uaim");
+	pajp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"pajp");
+	pajm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"pajm");
+	papp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"papp");
+
+
 	ops_decl_const("xmin", 1, "double", &xmin);
 	ops_decl_const("xmax", 1, "double", &xmax);
 	ops_decl_const("xcells", 1, "int", &xcells);
@@ -148,6 +272,8 @@ void initialize()
 	ops_decl_const("yM1", 1, "int", &yM1);
 	ops_decl_const("yM2", 1, "int", &yM2);
 	ops_decl_const("yM3", 1, "int", &yM3);
+	ops_decl_const("rhocon", 1, "double", &rhocon);
+	ops_decl_const("cpcon", 1, "double", &cpcon);
 
 	ops_diagnostic_output();
 

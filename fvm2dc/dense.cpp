@@ -39,45 +39,30 @@
  mingtao.li@gmail.com
  */
 
+
 /*
- * buildinitialfiels_kernel.h
+ * dense.cpp
  *
- *  Created on: Apr 2, 2018
+ *  Created on: 2018年4月17日
  *      Author: limingtao
  */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-#ifndef BUILDINITIALFIELS_KERNEL_H_
-#define BUILDINITIALFIELS_KERNEL_H_
+// OPS header file
+#define  OPS_2D
+#include "ops_seq.h"
 
-void buildinitialfield_kernel_setupinitialfield(double *pc_presscorr,
-		double *u_xvel0, double *v_yvel0, double *con, double *app,
-		double *density, double *cp, double *pressure, int *idx) {
+#include "globalvars.h"
 
-	pc_presscorr[OPS_ACC0(0, 0)] = 0.0;
-	u_xvel0[OPS_ACC1(0, 0)] = 0.0;
-	v_yvel0[OPS_ACC2(0, 0)] = 0.0;
-	con[OPS_ACC3(0, 0)] = 0.0;
-	app[OPS_ACC4(0, 0)] = 0.0;
-	density[OPS_ACC5(0, 0)] = rhocon;
-	cp[OPS_ACC6(0, 0)] = cpcon;
-	pressure[OPS_ACC7(0, 0)] = 0.0;
+#include "dense_kernel.h"
 
+void dense(){
+
+	lstop=1;
 }
 
-void buildinitialfield_kernel_start(double *t_temperature, double *x_cellx,
-		double *y_celly, int *idx) {
 
-	if (idx[0] == 1 | idx[0] == xL1 | idx[1] == 1 | idx[1] == yM1) {
 
-		t_temperature[OPS_ACC0(0, 0)] = x_cellx[OPS_ACC1(0, 0)]
-												+ y_celly[OPS_ACC2(0, 0)]
-														  + x_cellx[OPS_ACC1(0, 0)] * y_celly[OPS_ACC2(0, 0)];
-
-	} else {
-		t_temperature[OPS_ACC0(0, 0)] = 0.0;
-
-	}
-
-}
-
-#endif /* BUILDINITIALFIELS_KERNEL_H_ */
