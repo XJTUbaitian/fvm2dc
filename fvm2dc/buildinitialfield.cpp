@@ -63,9 +63,9 @@ void buildinitialfield() {
 
 	int iter_range[] = { 0, 1, 0, 1 }; //局部变量
 	iter_range[0] = 1;
-	iter_range[1] = xL1;
+	iter_range[1] = xL1+1;
 	iter_range[2] = 1;
-	iter_range[3] = yM1;
+	iter_range[3] = yM1+1;
 
 	ops_par_loop(buildinitialfield_kernel_setupinitialfield,
 			"buildinitialfield_kernel_setupinitialfield", fvm2dc_grid, 2,
@@ -85,9 +85,9 @@ void buildinitialfield() {
 	//********************************
 
 	iter_range[0] = 1;
-	iter_range[1] = xL1;
+	iter_range[1] = xL1+1;
 	iter_range[2] = 1;
-	iter_range[3] = yM1;
+	iter_range[3] = yM1+1;
 
 	ops_par_loop(buildinitialfield_kernel_start,
 			"buildinitialfield_kernel_start", fvm2dc_grid, 2, iter_range,

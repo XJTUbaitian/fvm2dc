@@ -66,6 +66,7 @@ void initialize();
 void gridsetup();
 void buildinitialfield();
 void dense();
+void coeffients_uvp();
 
 int main(int argc, char **argv) {
 
@@ -115,6 +116,7 @@ int main(int argc, char **argv) {
 //	 bound();
 //	 output();
 //	 iternext();
+	 coeffients_uvp();
 	 }
 
 //	 output();
