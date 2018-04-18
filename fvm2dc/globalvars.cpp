@@ -48,35 +48,36 @@
 
 #include "globalvars.h"
 
-string title[NFX4];
-int lsolve[NFX4];
-int lprint[NFX4];
-int lblk[NFX4];
-int lstop;
+string title[NFX4]; //simper95变量title，不同变量的标题
+int lsolve[NFX4]; //simper95变量lsolve，控制该变量是否要求解
+int lprint[NFX4]; //simper95变量lprint，控制该变量是否打印
+int lblk[NFX4]; //simper95变量lblk，控制该变量是否采用块修正技术
+int lstop; //simper95变量lstop，全局控制是否停止程序
+double relax[NFX4]; //simper95变量relax，松弛因子
 
 //ops block
 ops_block fvm2dc_grid; //grid,网格
 
 //ops dats
-ops_dat xu_facex; // simper95.for变量xu
-ops_dat x_cellx; // simper95.for变量x
-ops_dat xdif_celldx; // simper95.for变量xdif
-ops_dat xcv_facedx; // simper95.for变量xcv
+ops_dat xu; // simper95.for变量xu
+ops_dat xx; // simper95.for变量x
+ops_dat xdif; // simper95.for变量xdif
+ops_dat xcv; // simper95.for变量xcv
 ops_dat xcvs; // simper95.for变量xcvs
 ops_dat xcvi; // simper95.for变量xcvi
 ops_dat xcvip; // simper95.for变量xcvip
 ops_dat fx; //simper95.for变量fx
 ops_dat fxm; //simper95.for变量fxm
 
-ops_dat yv_facey; // simper95.for变量yv
-ops_dat y_celly; // simper95.for变量y
-ops_dat ydif_celldy; // simper95.for变量ydif
-ops_dat ycv_facedy; // simper95.for变量ycv
+ops_dat yv; // simper95.for变量yv
+ops_dat yy; // simper95.for变量y
+ops_dat ydif; // simper95.for变量ydif
+ops_dat ycv; // simper95.for变量ycv
 ops_dat ycvs; // simper95.for变量ycvs
 ops_dat fy; //simper95.for变量fy
 ops_dat fym; //simper95.for变量fym
 
-ops_dat radius; //simper95.for变量r
+ops_dat rr; //simper95.for变量r
 ops_dat sx; //simper95.for变量sx
 
 ops_dat rmn; //simper95.for变量rmn
@@ -92,14 +93,16 @@ ops_dat ycvrs; // simper95.for变量ycvrs
 ops_dat fv; //simper95.for变量fv
 ops_dat fvp; //simper95.for变量fvp
 
+//********************************************************
+//网格相关的几何变量结束
+//********************************************************
 
-
-ops_dat u_xvel0; // simper95.for变量U
-ops_dat v_yvel0; // simper95.for变量V
+ops_dat uxvel; // simper95.for变量U
+ops_dat vyvel; // simper95.for变量V
 ops_dat pc_presscorr; // simper95.for变量PC
 ops_dat t_temperature; // simper95.for变量T
-ops_dat du_deltaxvel0; // simper95.for变量dU
-ops_dat dv_deltayvel0; // simper95.for变量dV
+ops_dat du_deltauxvel; // simper95.for变量dU
+ops_dat dv_deltavyvel; // simper95.for变量dV
 ops_dat uhat_xvelhat; // simper95.for变量UHAT
 ops_dat vhat_yvelhat; // simper95.for变量VHAT
 
@@ -108,7 +111,7 @@ ops_dat qt; //simper95.for变量qt
 
 
 ops_dat pressure; // simper95.for变量P
-ops_dat density; // simper95.for变量RHO
+ops_dat rho; // simper95.for变量RHO
 ops_dat gam; // simper95.for变量GAM
 ops_dat cp; // simper95.for变量cp
 
@@ -148,7 +151,19 @@ ops_stencil S2D_00_M10; // 00:-10
 ops_stencil S2D_00_0P1; // 00:01
 ops_stencil S2D_00_0M1; // 00:0-1
 ops_stencil S2D_00_P10_M10; //00:10:-10
+ops_stencil S2D_00_0P1_0M1; //00:01:0-1
 ops_stencil S2D_00_P10_M10_0P1_0M1;
+
+ops_stencil S2D_00_STRID2D_X; // 00
+ops_stencil S2D_00_P10_STRID2D_X; // 00:10
+ops_stencil S2D_00_M10_STRID2D_X; // 00:-10
+ops_stencil S2D_00_P10_M10_STRID2D_X; //00:10:-10
+
+ops_stencil S2D_00_STRID2D_Y; // 00
+ops_stencil S2D_00_0P1_STRID2D_Y; // 00:01
+ops_stencil S2D_00_0M1_STRID2D_Y; // 00:0-1
+ops_stencil S2D_00_0P1_0M1_STRID2D_Y; //00:01:0-1
+
 
 FILE *fp;
 

@@ -64,9 +64,9 @@
 // fvm2dc functions
 void initialize();
 void gridsetup();
-void buildinitialfield();
-void dense();
-void coeffients_uvp();
+//void buildinitialfield();
+//void dense();
+//void coeffients_uvp();
 
 int main(int argc, char **argv) {
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
 	xmax = 1.0;
 	xlength = xmax - xmin;
 	ymin = 0.0;
-	ymax = 2.0;
+	ymax = 8.0;
 	ylength = ymax - ymin;
 
 	xcells = 5;
@@ -109,15 +109,15 @@ int main(int argc, char **argv) {
 
 //  ops_diagnostic_output();
 
-	buildinitialfield();
+//	buildinitialfield();
 
-	 while (lstop==0) {
-	 dense();
-//	 bound();
-//	 output();
-//	 iternext();
-	 coeffients_uvp();
-	 }
+//	 while (lstop==0) {
+//	 dense();
+////	 bound();
+////	 output();
+////	 iternext();
+////	 coeffients_uvp();
+//	 }
 
 //	 output();
 

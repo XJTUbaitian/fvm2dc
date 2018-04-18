@@ -71,11 +71,11 @@ void buildinitialfield() {
 			"buildinitialfield_kernel_setupinitialfield", fvm2dc_grid, 2,
 			iter_range,
 			ops_arg_dat(pc_presscorr, 1, S2D_00, "double", OPS_WRITE),
-			ops_arg_dat(u_xvel0, 1, S2D_00, "double", OPS_WRITE),
-			ops_arg_dat(v_yvel0, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(uxvel, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(vyvel, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(con, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(app, 1, S2D_00, "double", OPS_WRITE),
-			ops_arg_dat(density, 1, S2D_00, "double", OPS_WRITE),
+			ops_arg_dat(rho, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(cp, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_dat(pressure, 1, S2D_00, "double", OPS_WRITE),
 			ops_arg_idx());
@@ -92,8 +92,8 @@ void buildinitialfield() {
 	ops_par_loop(buildinitialfield_kernel_start,
 			"buildinitialfield_kernel_start", fvm2dc_grid, 2, iter_range,
 			ops_arg_dat(t_temperature, 1, S2D_00, "double", OPS_WRITE),
-			ops_arg_dat(x_cellx, 1, S2D_00, "double", OPS_READ),
-			ops_arg_dat(y_celly, 1, S2D_00, "double", OPS_READ), ops_arg_idx());
+			ops_arg_dat(xx, 1, S2D_00, "double", OPS_READ),
+			ops_arg_dat(yy, 1, S2D_00, "double", OPS_READ), ops_arg_idx());
 	//********************************
 	//simpler.f90的start结束
 	//********************************

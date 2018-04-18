@@ -66,121 +66,97 @@ void initialize()
 
 	int d_p[2] = { 0, 0 };
 	int d_m[2] = { 0, 0 };
-	int base[2] = { 1, 1 }; //改成从1,1开始，便于与simpler.f90的进行比较
-	int size[2] = { xL1, yM1 };
+	int base[2] = { 0, 0 };
+
+	//fortran的base从1,1，但是c从0,0开始，这里本也可从1,1开始，
+	//但由于stride_stencil好像不支持，所以还是从0,0开始吧
+
+	int size[2] = { 0, 0 };
 	double *temp = NULL;
+
+	//********************************************************
+	//网格相关的几何变量开始
+	//********************************************************
 
 	size[0] = xL1;
 	size[1] = 1;
-
-	//XU
-	xu_facex = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "xu_facex");
-	//X
-	x_cellx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"x_cellx");
-	//XDIF
-	xdif_celldx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "xdif_celldx");
-	//XCV
-	xcv_facedx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "xcv_facedx");
-	//xcvs
+	xu = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xu");
+	xx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xx");
+	xdif = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xdif");
+	xcv = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"xcv");
 	xcvs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvs");
-	//xcvi
 	xcvi = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvi");
-	//xcvip
 	xcvip = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"xcvip");
-	//fx
 	fx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fx");
-	//fxm
 	fxm = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fxm");
 
 	size[0] = 1;
 	size[1] = yM1;
-
-	//YV
-	yv_facey = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "yv_facey");
-
-	//Y
-	y_celly = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"y_celly");
-
-	//YDIF
-	ydif_celldy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "ydif_celldy");
-
-	//YCV
-	ycv_facedy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
-			"double", "ycv_facedy");
-
-	//YCVS
+	yv = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"yv");
+	yy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"yy");
+	ydif = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ydif");
+	ycv = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"ycv");
 	ycvs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"ycvs");
-
-	//fy
 	fy = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fy");
-	//fym
 	fym = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fym");
-
-	//radius
-	radius = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"radius");
-	//sx
+	rr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"rr");
 	sx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"sx");
-	//rmn
 	rmn = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"rmn");
-	//sxmn
 	sxmn = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"sxmn");
-
-	//arx
 	arx = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"arx");
-	//arxj
 	arxj = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"arxj");
-
-	//arxjp
 	arxjp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"arxjp");
-
-	//ycvr
 	ycvr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"ycvr");
-
-	//ycvrs
 	ycvrs = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"ycvrs");
-
-	//fv
 	fv = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fv");
-
-	//fvp
 	fvp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"fvp");
 
+	//********************************************************
+	//网格相关的几何变量结束
+	//********************************************************
+
+
+	//********************************************************
+	//网格上的节点变量开始
+	//********************************************************
+
 	size[0] = xL1;
 	size[1] = yM1;
-	u_xvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"u_xvel0");
-	v_yvel0 = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"v_yvel0");
+	uxvel = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"uxvel");
+	vyvel = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"vyvel");
 	pc_presscorr = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "pc_presscorr");
-	density = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"density");
+	rho = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
+			"rho");
 	t_temperature = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "t_temperature");
 	uhat_xvelhat = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
@@ -196,14 +172,14 @@ void initialize()
 
 	pressure = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp,
 			"double", "pressure");
-	density = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
-			"density");
 
 	gam = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"gam");
 	cp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"cp");
-
+	//********************************************************
+	//变量的系数开始
+	//********************************************************
 	//一般方程的系数
 
 	con = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
@@ -258,6 +234,13 @@ void initialize()
 			"pajm");
 	papp = ops_decl_dat(fvm2dc_grid, 1, size, base, d_m, d_p, temp, "double",
 			"papp");
+	//********************************************************
+	//变量的系数结束
+	//********************************************************
+
+	//********************************************************
+	//常数开始
+	//********************************************************
 
 
 	ops_decl_const("xmin", 1, "double", &xmin);
@@ -275,7 +258,7 @@ void initialize()
 	ops_decl_const("rhocon", 1, "double", &rhocon);
 	ops_decl_const("cpcon", 1, "double", &cpcon);
 
-	ops_diagnostic_output();
+	//ops_diagnostic_output();
 
 	int s2D_00[] = { 0, 0 };
 	S2D_00 = ops_decl_stencil(2, 1, s2D_00, "00");
@@ -292,12 +275,42 @@ void initialize()
 	int s2D_00_0M1[] = { 0, 0, 0, -1 };
 	S2D_00_0M1 = ops_decl_stencil(2, 2, s2D_00_0M1, "00:0-1");
 
-	int s2D_00_P1_M10[] = { 0, 0, 1, 0, -1, 0 }; //00:10:-10
-	S2D_00_P10_M10 = ops_decl_stencil(2, 3, s2D_00_P1_M10, "00:10:-10");
+	int s2D_00_P10_M10[] = { 0, 0, 1, 0, -1, 0 }; //00:10:-10
+	S2D_00_P10_M10 = ops_decl_stencil(2, 3, s2D_00_P10_M10, "00:10:-10");
+
+	int s2D_00_0P1_0M1[] = { 0, 0, 0, 1, 0, -1 }; //00:01:0-1
+	S2D_00_0P1_0M1 = ops_decl_stencil(2, 3, s2D_00_0P1_0M1, "00:01:0-1");
 
 	int s2D_00_P10_M10_0P1_0M1[] = { 0, 0, 1, 0, -1, 0, 0, 1, 0, -1 };
 	S2D_00_P10_M10_0P1_0M1 = ops_decl_stencil(2, 5, s2D_00_P10_M10_0P1_0M1,
 			"00:10:-10:01:0-1");
+
+	int stride2D_x[] = { 1, 0 };
+	int stride2D_y[] = { 0, 1 };
+
+	S2D_00_STRID2D_X = ops_decl_strided_stencil(2, 1, s2D_00, stride2D_x,
+			"s2D_00_stride2D_x");
+
+	S2D_00_P10_STRID2D_X = ops_decl_strided_stencil(2, 2, s2D_00_P10,
+			stride2D_x, "s2D_00_P10_stride2D_x");
+
+	S2D_00_M10_STRID2D_X = ops_decl_strided_stencil(2, 2, s2D_00_M10,
+			stride2D_x, "s2D_00_M10_stride2D_x");
+
+	S2D_00_P10_M10_STRID2D_X = ops_decl_strided_stencil(2, 3, s2D_00_P10_M10,
+			stride2D_y, "s2D_00_P10_M10_stride2D_x");
+
+	S2D_00_STRID2D_Y = ops_decl_strided_stencil(2, 1, s2D_00, stride2D_y,
+			"s2D_00_stride2D_y");
+
+	S2D_00_0P1_STRID2D_Y = ops_decl_strided_stencil(2, 2, s2D_00_0P1,
+			stride2D_y, "s2D_00_0P1_stride2D_y");
+
+	S2D_00_0M1_STRID2D_Y = ops_decl_strided_stencil(2, 2, s2D_00_0M1,
+			stride2D_y, "s2D_00_0M1_stride2D_y");
+
+	S2D_00_0P1_0M1_STRID2D_Y = ops_decl_strided_stencil(2, 3, s2D_00_0P1_0M1,
+			stride2D_y, "s2D_00_0P1_0M1_stride2D_y");
 
 	//ops_diagnostic_output();
 }
